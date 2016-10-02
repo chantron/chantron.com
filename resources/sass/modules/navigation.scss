@@ -1,0 +1,107 @@
+#main {
+    border: 1px solid rgba(0, 0, 0, .0);
+    display: inline-block;
+    left: 0;
+    position: fixed;
+    top: 0;
+    transition-duration: 1s;
+    transition-property: background-color, border-bottom;
+    width: 100%;
+    z-index: 100;
+}
+
+#main.highlighted {
+    background-color: rgba(0, 0, 0, .75);
+    border-bottom: 1px solid $primary;
+}
+
+.navigation {
+    display: inline-block;
+    float: left;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    // box-shadow: 0 3px 20px 0 $secondary;
+}
+
+.navigation li {
+    transition-duration: 1s;
+    transition-property: display;
+}
+
+.navigation-list-item {
+    display: inline-block;
+    height: 100%;
+}
+
+.navigation-list-item-title {
+    // background-color:;
+    color: rgba(255, 255, 255, .75);
+    display: inline-block;
+    font-family: $spaceMono;
+    font-size: 1.8rem;
+    margin: 0;
+    padding: $padding;
+    text-transform: uppercase;
+}
+
+.navigation-list-item-controls,
+.navigation-list-item-link {
+    display: inline-block;
+    font-family: $spaceMono;
+    font-size: 1.8rem;
+    letter-spacing: 3px;
+    padding: $padding;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+
+.navigation-list-item-link.active {
+    background-color: $primary;
+    color: rgba(0, 0, 0, .75);
+}
+
+.navigation-list-item-controls:hover,
+.navigation-list-item-link:hover {
+    background-color: $primary;
+    color: rgba(0, 0, 0, .75);
+}
+
+.navigation-list-item-subtitle {
+    display: inline-block;
+    margin: 0;
+    padding: 32px;
+}
+
+@media (min-width: 721px) {
+    .navigation-list-item-controls {
+        display: none;
+    }
+}
+
+@media (max-width: 720px) {
+    .navigation-list-item-title-wrapper,
+    .navigation-list-item-controls {
+        float: left;
+        width: auto;
+    }
+
+    .navigation-list-item {
+        float: left;
+        padding: 0;
+        width: auto;
+    }
+
+    .navigation-list-item {
+        width: 100%;
+    }
+
+    .navigation-list-item-subtitle,
+    .navigation-list-item-link {
+        display: inline-block;
+        padding: 32px 0;
+        text-align: center;
+        width: 100%;
+    }
+}

@@ -1,0 +1,35 @@
+.float-left {
+    float: left;
+}
+
+.float-right {
+    float: right;
+}
+
+.hidden {
+    display: none;
+}
+
+.font-monospace {
+    font-family: $spaceMono;
+}
+
+.center-text {
+    text-align: center;
+}
+
+.left-text {
+    text-align: left;
+}
+
+.right-text {
+    text-align: right;
+}
+
+.uppercase {
+    text-transform: uppercase;
+}
+
+.font-space-mono {
+    font-family: $spaceMono;
+}

@@ -1,0 +1,17 @@
+ul.skills {
+    display: inline-block;
+    float: left;
+    margin: 0;
+    padding: 0;
+    width: 50%;
+}
+
+.even-more-skills {
+    float: left;
+    width: 100%;
+}
+
+.even-more-skills li {
+    font-size: 1.8rem;
+    text-align: center;
+}

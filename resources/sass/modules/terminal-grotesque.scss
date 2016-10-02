@@ -1,0 +1,19 @@
+@font-face {
+    font-family: 'TerminalGrotesqueOpenRegular';
+    src: url('/assets/fonts/terminal-grotesque/TerminalGrotesqueOpenRegular.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'TerminalGrotesqueRegular';
+    src: url('/assets/fonts/terminal-grotesque/TerminalGrotesqueRegular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.font-terminal {
+    font-family: 'TerminalGrotesqueRegular', sans-serif;
+    font-style: normal;
+    font-weight: normal;
+}

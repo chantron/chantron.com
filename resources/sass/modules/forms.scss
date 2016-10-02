@@ -1,0 +1,43 @@
+form {
+    padding: 1.8rem;
+    font-size: 1.8rem;
+}
+
+input,
+textarea,
+select {
+    border: 1px solid $primary;
+    color: $background;
+    display: inline-block;
+    float: left;
+    padding: 1.8rem;
+    width: 100%;
+}
+
+button {
+    background-color: $success;
+    border: 0;
+    font-family: $exo2;
+    letter-spacing: .1rem;
+    padding: $padding;
+}
+
+button:hover {
+    background-color: saturate($success, 10%);
+}
+
+label {
+    color: lighten($text, 50);
+    display: inline-block;
+    float: left;
+    font-family: $exo2;
+    font-size: 2rem;
+    width: 100%;
+}
+
+@media (max-width: 720px) {
+    input,
+    textarea {
+        float: left;
+    }
+}

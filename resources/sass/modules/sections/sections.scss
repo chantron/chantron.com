@@ -1,0 +1,96 @@
+.section {
+    height: 100%;
+    margin: 0 auto;
+    width: 1200px;
+}
+
+.section-header {
+    background-attachment: fixed;
+    background-size: cover;
+    display: inline-block;
+    height: 100%;
+}
+
+.section-header h1 {
+    font-size: 8rem;
+    font-weight: bold;
+    margin-bottom: 0;
+    margin-top: 150px;
+    text-align: center;
+    text-shadow: 0 -5px 5px #000;
+}
+
+.section-header p,
+.section-header div {
+    background-color: rgba(0, 0, 0, .5);
+    display: block;
+    float: left;
+    font-family: $openSans;
+    font-size: 2.4rem;
+    line-height: 4.2rem;
+    margin: 0 auto;
+    padding: $padding;
+    text-shadow: 2px 2px 2px 5px #000;
+}
+
+.section-header a:link {
+    font-family: $exo2;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.section-content {
+    background-color: rgba(0, 0, 0, .5);
+    float: left;
+}
+
+.section-content h1 {
+    font-size: 6rem;
+    text-align: center;
+}
+
+.section-content p {
+    text-align: left;
+}
+
+.section-content li {
+    text-align: center;
+    display: inline-block;
+    font-size: 3.4rem;
+    float: left;
+    list-style-type: none;
+    padding: 1.8rem;
+}
+
+@media (min-width: 768px) and (max-width: 1200px) {
+    .section,
+    .section-content {
+        width: 100%;
+        float: left;
+    }
+}
+
+@media (max-width: 768px) {
+    .section,
+    .section-content {
+        width: 100%;
+    }
+
+    .section-header h1 {
+        font-size: 8rem;
+    }
+
+    .section-header h1 {
+        text-align: center;
+        width: 100%;
+    }
+
+    .section-content p,
+    .section-header p {
+        display: inline-block;
+        padding: 1.8rem;
+    }
+}
+
+@import 'home';
+@import 'contact';

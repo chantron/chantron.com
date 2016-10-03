@@ -1,4 +1,4 @@
-ul.skills {
+.skills {
     display: inline-block;
     float: left;
     margin: 0;
@@ -14,4 +14,10 @@ ul.skills {
 .even-more-skills li {
     font-size: 1.8rem;
     text-align: center;
+}
+
+@media (max-width: 720px) {
+    .skills {
+        width: 100%;
+    }
 }

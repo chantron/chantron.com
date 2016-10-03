@@ -2,13 +2,11 @@ import $ from 'jquery';
 
 export default function responsiveMenuDecorator(node, content) {
     var nav = $('#main'),
-        toggleNav,
-        self = this,
-        items = $('.navigation-list-item');
+        toggleNav;
 
-    toggleNav = function() {
-        if (self.get('window').width() > 720) {
-            self.set('responsiveMenu', false);
+    toggleNav = () => {
+        if (this.get('window').width() > 720) {
+            this.set('responsiveMenu', false);
             return;
         }
     };

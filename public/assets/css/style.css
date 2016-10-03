@@ -2592,7 +2592,6 @@ h6 {
 p {
   color: #fff;
   font-size: 1.8rem;
-  letter-spacing: 4px;
   line-height: 3.2rem;
   font-family: "Open Sans", "Helvetica", "Arial", sans-serif; }
 
@@ -2866,24 +2865,26 @@ label {
 @media (min-width: 768px) and (max-width: 1200px) {
   .section,
   .section-content {
-    width: 100%;
-    float: left; } }
+    float: left;
+    width: 100%; } }
 
 @media (max-width: 768px) {
   .section,
   .section-content {
     width: 100%; }
   .section-header h1 {
-    font-size: 8rem; }
-  .section-header h1 {
-    text-align: center;
+    font-size: 5rem;
+    margin-top: 6rem;
     width: 100%; }
   .section-content p,
   .section-header p {
     display: inline-block;
-    padding: 1.8rem; } }
+    padding: 1.8rem;
+    font-size: 1.8rem;
+    line-height: 2.4rem;
+    letter-spacing: normal; } }
 
-ul.skills {
+.skills {
   display: inline-block;
   float: left;
   margin: 0;
@@ -2897,4 +2898,8 @@ ul.skills {
 .even-more-skills li {
   font-size: 1.8rem;
   text-align: center; }
+
+@media (max-width: 720px) {
+  .skills {
+    width: 100%; } }
 /*# sourceMappingURL=style.css.map */

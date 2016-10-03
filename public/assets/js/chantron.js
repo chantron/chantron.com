@@ -30488,8 +30488,16 @@
 	}
 
 	function fullHeightDecorator(node) {
-	    var fullHeight = function fullHeight() {
-	        $(node).height($(window).height());
+	    var $node = $(node),
+	        $window = $(window),
+	        fullHeight;
+
+	    fullHeight = function fullHeight() {
+	        if ($node.height() >= $window.height()) {
+	            return;
+	        }
+
+	        $node.height($window.height());
 	    };
 
 	    fullHeight();
@@ -30540,14 +30548,14 @@
 	}
 
 	function responsiveMenuDecorator(node, content) {
+	    var _this = this;
+
 	    var nav = $('#main'),
-	        toggleNav,
-	        self = this,
-	        items = $('.navigation-list-item');
+	        toggleNav;
 
 	    toggleNav = function toggleNav() {
-	        if (self.get('window').width() > 720) {
-	            self.set('responsiveMenu', false);
+	        if (_this.get('window').width() > 720) {
+	            _this.set('responsiveMenu', false);
 	            return;
 	        }
 	    };

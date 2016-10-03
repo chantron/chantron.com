@@ -1,8 +1,16 @@
 import $ from 'jquery';
 
 export default function fullHeightDecorator(node) {
-    var fullHeight = () => {
-        $(node).height($(window).height());
+    var $node = $(node),
+        $window = $(window),
+        fullHeight;
+
+    fullHeight = () => {
+        if ($node.height() >= $window.height()) {
+            return;
+        }
+
+        $node.height($window.height());
     };
 
     fullHeight();

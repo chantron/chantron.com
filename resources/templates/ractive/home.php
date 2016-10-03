@@ -14,7 +14,7 @@
                 </li>
                 <li>
                     <i class="fa fa-wordpress"></i> WordPress
-                    <p>WordPress is more than blogging software, my extensive experience with WordPress allows me to </p>
+                    <p>I've been working with WordPress since 2005. During that time I've developed plugins, themes and building out sites of all sizes. From blogs to corporate projects. I am the developer of the Brown Paper Tickets WordPress plugin that allows Event Organizers to display and access their event data easily within WordPress.</p>
                 </li>
                 <li>
                     <i class="fa fa-plug"></i> REST APIs

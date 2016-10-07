@@ -2,7 +2,7 @@
     <section id="home" class="section" fade-in>
         <header class="section-header" as-fullHeight>
             <h1>Full Stack Web Developer</h1>
-            <p fade-in>I'm Chandler and I'm a front and back end developer with over 4 years experience as a developer and over 10 in the technology world. My skills include modern PHP development, JavaScript, Linux and Free/Open Source software. <br> <a href="#skills" class="float-right uppercase" as-scrollTo>See my skills</a></p>
+            <p fade-in>I'm Chandler and I'm a front and back end developer with over 5 years experience as a developer and over 10 in the technology world. My skills include modern PHP development, JavaScript, Linux and Free/Open Source software. <br> <a href="#skills" class="float-right uppercase" as-scrollTo>See my skills</a></p>
             <h1><a href="https://www.github.com/chantron" target="_blank"><i class="fa fa-github"></i></a> <a href="https://www.twitter.com/chantron" target="_blank"><i class="fa fa-twitter"></i></a></h1>
         </header>
         <div class="section-content" id="skills">
@@ -10,7 +10,7 @@
             <ul class="skills">
                 <li>
                     <i class="fa fa-code"></i> PHP
-                    <p>PHP has grown a lot over the past few years. I make use of current best practices such as Composer for dependency managenment and following the guidelines suggested by the PHP-FIG.</p>
+                    <p>PHP has grown a lot over the past few years. I make use of current best practices like PHPUnit for testing, Composer for dependency managenment and staying up to date on the recomendations put forth by the PHP-FIG and other community leaders.</p>
                 </li>
                 <li>
                     <i class="fa fa-wordpress"></i> WordPress

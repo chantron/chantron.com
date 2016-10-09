@@ -36,6 +36,11 @@
 }
 
 .navigation-list-item-title {
+    margin: 0;
+}
+
+.navigation-list-item-title a:link,
+.navigation-list-item-title a:visited {
     // background-color:;
     color: rgba(255, 255, 255, .75);
     display: inline-block;
@@ -43,7 +48,15 @@
     font-size: 1.8rem;
     margin: 0;
     padding: $padding;
+    text-decoration: none;
     text-transform: uppercase;
+    transition-duration: 1s;
+    transition-property: text-shadow, color;
+}
+
+.navigation-list-item-title a:hover {
+    color: $primary;
+    text-shadow: $textShadow;
 }
 
 .navigation-list-item-controls,

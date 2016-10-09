@@ -20,7 +20,8 @@ var Chantron = Backbone.View.extend({
         Backbone.history.start({pushState: true, root: '/'});
     },
     events: {
-        'click .navigation-list-item-link': 'navigate'
+        'click .navigation-list-item-link': 'navigate',
+        'click .navigation-list-item-title': 'navigate'
     },
     render: function() {
         this.ractive = new ChantronRactive({
@@ -36,7 +37,8 @@ var Chantron = Backbone.View.extend({
     },
     navigate: function(event) {
         event.preventDefault();
-        var path = event.currentTarget.getAttribute('href');
+        var path = event.currentTarget.getAttribute('href') || '/';
+        this.ractive.set('previousPath', this.ractive.get('path'));
         this.ractive.set('path', path);
         if (this.ractive.get('responsiveMenu')) {
             this.ractive.set('responsiveMenu', false);
@@ -54,8 +56,8 @@ var chantron = new Chantron({
     navigation: new Navigation({
         links: [
             {
-                text: 'Home',
-                href: '/',
+                text: 'skills',
+                href: '/skills'
             },
             {
                 text: 'Contact',

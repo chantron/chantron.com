@@ -13,6 +13,13 @@ Ractive.DEBUG = false;
 var ChantronRactive = Ractive.extend({
     data: () => {
         return {
+            getBackgroundImage: () => {
+                if (this.get('hershMode')) {
+                    return '/assets/images/hersh-1.jpg';
+                }
+                return this.get('backgroundImage');
+            },
+            previousPath: null,
             backgroundImage: '/assets/images/m100.jpg',
             window: $(window),
             isActive: (path) => {
@@ -22,6 +29,7 @@ var ChantronRactive = Ractive.extend({
                 return this.get('window').width() > 720;
             },
             responsiveMenu: false,
+            hershMode: false,
         };
     },
     partials: {

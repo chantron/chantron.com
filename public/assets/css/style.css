@@ -2636,13 +2636,24 @@ a:hover {
   height: 100%; }
 
 .navigation-list-item-title {
+  margin: 0; }
+
+.navigation-list-item-title a:link,
+.navigation-list-item-title a:visited {
   color: rgba(255, 255, 255, 0.75);
   display: inline-block;
   font-family: "Space Mono", monospace;
   font-size: 1.8rem;
   margin: 0;
   padding: 1.8rem;
-  text-transform: uppercase; }
+  text-decoration: none;
+  text-transform: uppercase;
+  transition-duration: 1s;
+  transition-property: text-shadow, color; }
+
+.navigation-list-item-title a:hover {
+  color: #00b9e8;
+  text-shadow: 2px 2px 2px 5px #000; }
 
 .navigation-list-item-controls,
 .navigation-list-item-link {
@@ -2746,6 +2757,9 @@ a:hover {
   padding-bottom: 5rem;
   width: 100%; }
 
+.toggle-hersh {
+  background-color: #00b9e8; }
+
 ul {
   margin: 0;
   padding: 0; }
@@ -2768,8 +2782,7 @@ button {
   background-color: #8cc63e;
   border: 0;
   font-family: "Exo 2", "Helvetica", "Arial", sans-serif;
-  letter-spacing: .1rem;
-  padding: 1.8rem; }
+  letter-spacing: .1rem; }
 
 button:hover {
   background-color: #8ed332; }

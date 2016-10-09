@@ -13323,14 +13323,92 @@
 	    console.log('changed last name!');
 	});
 
+	/**
+	* Scroll to element.
+	*
+	* @param  {Element} $target The targetted element to scroll to
+	* @param  {Object}  options Animate scroll options
+	* @return {Void}
+	*/
+	$.scrollTo = function ($target, options) {
+	    // Merge options with default settings.
+	    var settings = $.extend({
+	        $container: $("html, body"),
+	        offset: 0,
+	        speed: 400
+	    }, options);
+
+	    // Scroll to $target.
+	    settings.$container.animate({
+	        scrollTop: $target.offset().top + settings.offset
+	    }, settings.speed);
+	};
+
+	/**
+	 * Scroll here.
+	 *
+	 * @param  {Object}  options Animate scroll options
+	 * @return {Element} Current selector element
+	 */
+	$.fn.scrollHere = function (options) {
+	    $.scrollTo(this, options);
+	    return this;
+	};
+
+	/**
+	 * Initialize animate scroll plugin.
+	 *
+	 * @param  {Object} options Animate scroll options
+	 * @return {Element}        Current selector element
+	 */
+	$.fn.animateScroll = function (options) {
+	    return this.each(function () {
+	        var $el = $(this),
+	            $target = $($el.attr('href')),
+	            elOptions = {};
+
+	        // Get data-offset attribute.
+	        if ($.isNumeric($el.data('offset'))) {
+	            elOptions.offset = parseInt($el.data('offset'));
+	        }
+
+	        // Get data-speed attribute.
+	        if ($.isNumeric($el.data('speed'))) {
+	            elOptions.speed = parseInt($el.data('speed'));
+	        }
+
+	        $el.on('click', function (event) {
+	            event.preventDefault();
+	            $.scrollTo($target, $.extend(options, elOptions));
+	        });
+	    });
+	};
+
 	function home() {
 	    this.view.set('backgroundImage', '/assets/images/m100.jpg');
+	    if (this.view.get('previousPath') === '/skills' || this.view.get('path') === '/') {
+	        $.scrollTo($('#chantron'));
+	        return;
+	    }
+
 	    this.view.resetPartial('content', this.view.partials.home);
 	}
 
 	function about() {
 	    this.view.set('backgroundImage', '/assets/images/fiery-wise-pleiades.jpg');
 	    this.view.resetPartial('content', this.view.partials.about);
+	}
+
+	function skills() {
+
+	    if (this.view.get('previousPath') === '/') {
+	        $.scrollTo($('#skills'));
+	        return;
+	    }
+
+	    this.view.resetPartial('content', this.view.partials.home).then(function () {
+	        $.scrollTo($('#skills'));
+	    });
 	}
 
 	function contact() {
@@ -13342,6 +13420,7 @@
 	    routes: {
 	        '': home,
 	        'home': home,
+	        'skills': skills,
 	        'about': about,
 	        'contact': contact
 	    },
@@ -30381,67 +30460,6 @@
 		}
 	};
 
-	/**
-	* Scroll to element.
-	*
-	* @param  {Element} $target The targetted element to scroll to
-	* @param  {Object}  options Animate scroll options
-	* @return {Void}
-	*/
-	$.scrollTo = function ($target, options) {
-	    // Merge options with default settings.
-	    var settings = $.extend({
-	        $container: $("html, body"),
-	        offset: 0,
-	        speed: 400
-	    }, options);
-
-	    // Scroll to $target.
-	    settings.$container.animate({
-	        scrollTop: $target.offset().top + settings.offset
-	    }, settings.speed);
-	};
-
-	/**
-	 * Scroll here.
-	 *
-	 * @param  {Object}  options Animate scroll options
-	 * @return {Element} Current selector element
-	 */
-	$.fn.scrollHere = function (options) {
-	    $.scrollTo(this, options);
-	    return this;
-	};
-
-	/**
-	 * Initialize animate scroll plugin.
-	 *
-	 * @param  {Object} options Animate scroll options
-	 * @return {Element}        Current selector element
-	 */
-	$.fn.animateScroll = function (options) {
-	    return this.each(function () {
-	        var $el = $(this),
-	            $target = $($el.attr('href')),
-	            elOptions = {};
-
-	        // Get data-offset attribute.
-	        if ($.isNumeric($el.data('offset'))) {
-	            elOptions.offset = parseInt($el.data('offset'));
-	        }
-
-	        // Get data-speed attribute.
-	        if ($.isNumeric($el.data('speed'))) {
-	            elOptions.speed = parseInt($el.data('speed'));
-	        }
-
-	        $el.on('click', function (event) {
-	            event.preventDefault();
-	            $.scrollTo($target, $.extend(options, elOptions));
-	        });
-	    });
-	};
-
 	function scrollToDecorator(node) {
 	    $(node).animateScroll();
 
@@ -30577,6 +30595,13 @@
 	var ChantronRactive = Ractive.extend({
 	    data: function data() {
 	        return {
+	            getBackgroundImage: function getBackgroundImage() {
+	                if (_this.get('hershMode')) {
+	                    return '/assets/images/hersh-1.jpg';
+	                }
+	                return _this.get('backgroundImage');
+	            },
+	            previousPath: null,
 	            backgroundImage: '/assets/images/m100.jpg',
 	            window: $(window),
 	            isActive: function isActive(path) {
@@ -30585,7 +30610,8 @@
 	            isVisible: function isVisible() {
 	                return _this.get('window').width() > 720;
 	            },
-	            responsiveMenu: false
+	            responsiveMenu: false,
+	            hershMode: false
 	        };
 	    },
 	    partials: {
@@ -30621,7 +30647,8 @@
 	        Backbone.history.start({ pushState: true, root: '/' });
 	    },
 	    events: {
-	        'click .navigation-list-item-link': 'navigate'
+	        'click .navigation-list-item-link': 'navigate',
+	        'click .navigation-list-item-title': 'navigate'
 	    },
 	    render: function render() {
 	        this.ractive = new ChantronRactive({
@@ -30637,7 +30664,8 @@
 	    },
 	    navigate: function navigate(event) {
 	        event.preventDefault();
-	        var path = event.currentTarget.getAttribute('href');
+	        var path = event.currentTarget.getAttribute('href') || '/';
+	        this.ractive.set('previousPath', this.ractive.get('path'));
 	        this.ractive.set('path', path);
 	        if (this.ractive.get('responsiveMenu')) {
 	            this.ractive.set('responsiveMenu', false);
@@ -30654,8 +30682,8 @@
 	var chantron = new Chantron({
 	    navigation: new Navigation({
 	        links: [{
-	            text: 'Home',
-	            href: '/'
+	            text: 'skills',
+	            href: '/skills'
 	        }, {
 	            text: 'Contact',
 	            href: '/contact'

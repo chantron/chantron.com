@@ -1,14 +1,14 @@
 import Backbone from 'backbone';
 import home from './controllers/home';
 import about from './controllers/about';
-import work from './controllers/work';
-import blog from './controllers/blog';
+import skills from './controllers/skills';
 import contact from './controllers/contact';
 
 var Router = Backbone.Router.extend({
     routes: {
         '': home,
         'home': home,
+        'skills': skills,
         'about': about,
         'contact': contact
     },

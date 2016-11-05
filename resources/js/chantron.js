@@ -1,7 +1,7 @@
 import Backbone from 'backbone';
 import $ from 'jquery';
 import Navigation from './models/Navigation';
-import ContactInfo from './models/ContactInfo';
+import Message from './models/Message';
 import Router from './router';
 import ChantronRactive from './chantron-ractive';
 import backboneAdaptor from 'ractive-adaptors-backbone';
@@ -13,7 +13,7 @@ var Chantron = Backbone.View.extend({
     el: '#chantron',
     initialize: function(models) {
         this.navigation = models.navigation;
-        this.contactInfo = models.contactInfo;
+        this.message = models.message;
         this.render();
         this.router.view = this.ractive;
         this.$el.appendTo(document.body);
@@ -29,7 +29,7 @@ var Chantron = Backbone.View.extend({
             template: this.template, // pass the view's template to ractive
             data: {
                 navigation: this.navigation,
-                contactInfo: this.contactInfo,
+                message: this.message,
                 path: window.location.pathname
             },
             router: this.router
@@ -69,7 +69,7 @@ var chantron = new Chantron({
             },
         ]
     }),
-    contactInfo: new ContactInfo(),
+    message: new Message(),
 });
 
 window.chantron = chantron;

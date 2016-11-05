@@ -1,7 +1,7 @@
 <?php namespace Chantron\Controllers;
 
-use Chantron\Contracts\Controller;
 use Slim\Container;
+use Chantron\Contracts\Controller;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 

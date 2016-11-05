@@ -2,24 +2,56 @@
 <section id="contact" class="section" fade-in>
     <header class="section-header" as-fullHeight>
         <h1>Open Hailing Frequencies</h1>
-        <p fade-in>
+        <p  fade-in>
             I'd love to hear from you about any development needs you may have. From WordPress themes or plugins or custom web applications, I can help.<br>
-            Send me an email at <a href="mailto:chandlerblum@gmail.com">chandlerblum@gmail.com</a>.
-
-            <!-- <form>
-                <label for="email">Email</label>
-                <input id="email" type="email" placeholder="your email address">
-                <label for="subject">Subject</label>
-                <select id="subject" name="subject">
-                    <option value="WordPress">WordPress</option>
-                    <option value="Custom">Custom Development</option>
-                    <option value="other">Other</option>
-                </select>
-                <label for="message">Message</label>
-                <textarea id="message" name="message" placeholder="Your message"></textarea>
-                <button class="float-right">Send Message</button>
-            </form> -->
+            <a href="#contact-form" class="uppercase float-right" as-scrollTo>Get in touch</a>
         </p>
     </header>
+    <div class="section-content">
+        {{#errors}}
+        <div class="error" fade-in-out><p>{{errors}}</p></div>
+        {{/errors}}
+		{{#success}}
+		<div class="success" fade-in-out><p>{{success}}</p></div>
+		{{/success}}
+        <form id="contact-form">
+            <label for="name"><i class="fa fa-fw fa-{{message.name ? 'check success' : 'times error'}}"></i> Name</label>
+            <input
+				id="name"
+				type="text"
+				class="{{message.name ? '' : 'required-field' }}"
+				placeholder="your name"
+				value="{{message.name}}"
+			>
+            <label for="email"><i class="fa fa-fw fa-{{message.validEmail() ? 'check success' : 'times error'}}"></i> Email</label>
+            <input
+                id="email"
+                type="email"
+				class="{{message.validEmail() ? '' : 'required-field'}}"
+                placeholder="your email address"
+                value="{{message.from}}"
+            >
+            <label for="subject"><i class="fa fa-fw fa-{{message.subject ? 'check success' : 'times error'}}"></i> Subject</label>
+            <select
+                id="subject"
+				class="{{message.subject ? '' : 'required-field' }}"
+                value="{{message.subject}}"
+            >
+                <option value="General">General</option>
+                <option value="WordPress">WordPress</option>
+                <option value="Custom">Custom Development</option>
+                <option value="other">Other</option>
+            </select>
+            <label for="text"><i class="fa fa-fw fa-{{message.text ? 'check success' : 'times error'}}"></i> Message</label>
+            <textarea
+                id="text"
+                name="text"
+				class="{{message.text ? '' : 'required-field' }}"
+                placeholder="Your message"
+                value={{message.text}}
+            ></textarea>
+            <button class="" on-click="sendMessage">Send Message {{#loading}}<i class="fa fa-spinner fa-spin"></i>{{/loading}}</button>
+        </form>
+    </div>
 </section>
 </script>

@@ -2,10 +2,6 @@
 
 $container = $app->getContainer();
 
-$providers = [
-    Projek\Slim\PlatesProvider::class
-];
-
-foreach ($providers as $provider) {
+foreach ($container['providers'] as $provider) {
     $container->register(new $provider);
 }

@@ -1,42 +1,63 @@
-form {
-    padding: 1.8rem;
-    font-size: 1.8rem;
-}
-
-input,
-textarea,
-select {
-    border: 1px solid $primary;
-    color: $background;
-    display: inline-block;
-    float: left;
-    padding: 1.8rem;
-    width: 100%;
-}
-
 button {
-    background-color: $success;
+    background-color: $primary;
     border: 0;
     font-family: $exo2;
     letter-spacing: .1rem;
+    text-transform: uppercase;
 }
 
-button:hover {
-    background-color: saturate($success, 10%);
-}
-
-label {
-    color: lighten($text, 50);
+form {
+    box-sizing: border-box;
     display: inline-block;
     float: left;
-    font-family: $exo2;
-    font-size: 2rem;
+    font-size: 1.8rem;
+    padding: 1.8rem;
     width: 100%;
+
+    div {
+        width: 100%;
+    }
+
+    input,
+    textarea,
+    select {
+        border: 3px solid $primary;
+        box-sizing: border-box;
+        color: $background;
+        display: inline-block;
+        float: left;
+        font-family: $spaceMono;
+        margin-bottom: 2.4rem;
+        padding: 1.8rem;
+        width: 100%;
+    }
+
+    button {
+        padding: $padding;
+    }
+
+    button:hover {
+        background-color: saturate($primary, 20%);
+    }
+
+    label {
+        color: lighten($text, 50);
+        display: inline-block;
+        float: left;
+        font-family: $exo2;
+        font-size: 2rem;
+        font-weight: bold;
+        width: 100%;
+    }
+
+    @media (max-width: 720px) {
+        input,
+        textarea {
+            float: left;
+        }
+    }
 }
 
-@media (max-width: 720px) {
-    input,
-    textarea {
-        float: left;
-    }
+.required-field {
+    border-color: $alert;
 }

@@ -1,0 +1,16 @@
+.error {
+    background-color: $alert;
+    color: #fff;
+    padding: $padding;
+}
+
+.success {
+    background-color: $primary;
+    color: #fff;
+    padding: $padding;
+}
+
+.fa.success,
+.fa.error {
+	padding: .8rem;
+}

@@ -28,8 +28,14 @@ return [
             'name' => 'app',
             'path' => __DIR__ . getenv('LOG_DIR'),
         ],
+        'mailgun' => [
+            'key' => getenv('MAILGUN_API'),
+            'domain' => getenv('MAILGUN_DOMAIN'),
+            'to' => getenv('MAILGUN_TO'),
+        ],
     ],
     'providers' => [
         Projek\Slim\PlatesProvider::class,
+        Chantron\Providers\MailProvider::class,
     ],
 ];

@@ -15,6 +15,7 @@ abstract class Controller
         $this->request = $container->get('request');
         $this->response = $container->get('response');
         $this->view = $container->get('view');
+        $this->mail = $container->get('mail');
     }
 
     protected function redirect($url)

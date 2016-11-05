@@ -5,7 +5,7 @@
             <p fade-in>I'm Chandler and I'm a front and back end developer with over 5 years experience as a developer and over 10 in the technology world. My skills include modern PHP development, JavaScript, Linux and Free/Open Source software. <br> <a href="#skills" class="float-right uppercase" as-scrollTo>See my skills</a></p>
             <h1><a href="https://www.github.com/chantron" target="_blank"><i class="fa fa-github"></i></a> <a href="https://www.twitter.com/chantron" target="_blank"><i class="fa fa-twitter"></i></a></h1>
         </header>
-        <div class="section-content" id="skills">
+        <div class="section-content" id="skills" as-fullHeight>
             <h1>Skills</h1>
             <ul class="skills">
                 <li>

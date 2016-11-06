@@ -33,9 +33,15 @@ return [
             'domain' => getenv('MAILGUN_DOMAIN'),
             'to' => getenv('MAILGUN_TO'),
         ],
+        'trackingId' => getenv('TRACKING_ID'),
     ],
     'providers' => [
         Projek\Slim\PlatesProvider::class,
         Chantron\Providers\MailProvider::class,
+        Chantron\Providers\NotFoundProvider::class,
+        Chantron\Providers\NotAllowedProvider::class,
     ],
+    'middleware' => [
+        Chantron\Middleware\ViewData::class,
+    ]
 ];

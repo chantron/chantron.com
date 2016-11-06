@@ -16,7 +16,6 @@ var Chantron = Backbone.View.extend({
         this.message = models.message;
         this.render();
         this.router.view = this.ractive;
-        this.$el.appendTo(document.body);
         Backbone.history.start({pushState: true, root: '/'});
     },
     events: {

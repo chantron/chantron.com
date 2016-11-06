@@ -18,9 +18,6 @@
                 <a class="navigation-list-item-link {{ isActive(href) ? 'active' : '' }}" href="{{href}}">{{text}}</a>
             </li>
             {{ /navigation }}
-            <!-- <li class="navigation-list-item float-right"><a class="navigation-list-item-link" href="/contact">contact</a></li>
-            <li class="navigation-list-item float-right"><a class="navigation-list-item-link" href="/blog">blog</a></li>
-            <li class="navigation-list-item float-right"><a class="navigation-list-item-link" href="/about">about</a></li> -->
         </ul>
     </nav>
     <div id="content-container">

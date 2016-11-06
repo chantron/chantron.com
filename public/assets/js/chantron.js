@@ -33565,6 +33565,7 @@
                   self.set('loading', false);
                   self.set('errors', null).then(function () {
                       self.set('success', response.message);
+                      $.scrollTo($('#message'));
                   });
               });
 
@@ -33572,6 +33573,7 @@
                   self.set('loading', false);
                   self.set('success', null).then(function () {
                       self.set('errors', response.responseJSON.message);
+                      $.scrollTo($('#message'));
                   });
               });
 
@@ -33614,7 +33616,6 @@
               this.message = models.message;
               this.render();
               this.router.view = this.ractive;
-              this.$el.appendTo(document.body);
               Backbone.history.start({ pushState: true, root: '/' });
           },
           events: {

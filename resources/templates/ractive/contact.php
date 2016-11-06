@@ -9,10 +9,10 @@
     </header>
     <div class="section-content">
         {{#errors}}
-        <div class="error" fade-in-out><p>{{errors}}</p></div>
+        <div id="message" class="error" fade-in-out><p>{{errors}} <i class="close-message fa fa-times float-right" on-click="@this.set('errors', null)"></i></p></div>
         {{/errors}}
 		{{#success}}
-		<div class="success" fade-in-out><p>{{success}}</p></div>
+		<div id="message" class="success" fade-in-out><p>{{success}} <i class="close-message fa fa-times float-right" on-click="@this.set('success', null)"></i></p></div>
 		{{/success}}
         <form id="contact-form">
             <label for="name"><i class="fa fa-fw fa-{{message.name ? 'check success' : 'times error'}}"></i> Name</label>

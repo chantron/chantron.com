@@ -1,15 +1,15 @@
 <?php namespace Chantron\Providers;
 
 use Pimple\Container;
-use Feed\Contracts\Provider;
+use Chantron\Contracts\Provider;
 
-class NotAllowed extends Provider
+class NotAllowedProvider extends Provider
 {
     public function register(Container $container)
     {
-        $container['notAllowedHandler'] = function ($container) {
+        $container['notFoundHandler'] = function ($container) {
             return function ($request, $response, $methods) use ($container) {
-                return $container['view']->render($response, '/errors/not-allowed.twig');
+                return $container['view']->render('/errors/not-found', []);
             };
         };
     }

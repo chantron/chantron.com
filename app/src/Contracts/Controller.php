@@ -18,9 +18,9 @@ abstract class Controller
         $this->mail = $container->get('mail');
     }
 
-    protected function redirect($url)
+    protected function redirect($url, $status = 302)
     {
-        return $this->response->withStatus(302)->withHeader('Location', $url);
+        return $this->response->withStatus($status)->withHeader('Location', $url);
     }
 
     protected function view($template, $data = [])
@@ -32,5 +32,4 @@ abstract class Controller
     {
         return $this->response->withJSON($data)->withStatus($status);
     }
-
 }

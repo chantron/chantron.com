@@ -58,6 +58,7 @@ var ChantronRactive = Ractive.extend({
 			self.set('loading', false);
 			self.set('errors', null).then(function() {
 				self.set('success', response.message);
+                $.scrollTo($('#message'));
 			});
         });
 
@@ -65,6 +66,7 @@ var ChantronRactive = Ractive.extend({
 			self.set('loading', false);
 			self.set('success', null).then(function() {
 				self.set('errors', response.responseJSON.message);
+                $.scrollTo($('#message'));
 			});
         });
 

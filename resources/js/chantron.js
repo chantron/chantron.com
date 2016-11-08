@@ -5,15 +5,23 @@ import Message from './models/Message';
 import Router from './router';
 import ChantronRactive from './chantron-ractive';
 import backboneAdaptor from 'ractive-adaptors-backbone';
+import Analytics from './analytics';
 
 backboneAdaptor.Backbone = Backbone;
 var Chantron = Backbone.View.extend({
     router: new Router(),
     template: $('#chantron-template').html(),
     el: '#chantron',
-    initialize: function(models) {
-        this.navigation = models.navigation;
-        this.message = models.message;
+    initialize: function(options) {
+        if (options.models) {
+            this.navigation = options.models.navigation;
+            this.message = options.models.message;
+        }
+
+        if (options.trackingId) {
+            this.analytics = new Analytics(options.trackingId);
+        }
+
         this.render();
         this.router.view = this.ractive;
         Backbone.history.start({pushState: true, root: '/'});
@@ -52,23 +60,26 @@ var Chantron = Backbone.View.extend({
 });
 
 var chantron = new Chantron({
-    navigation: new Navigation({
-        links: [
-            {
-                text: 'skills',
-                href: '/skills'
-            },
-            {
-                text: 'Contact',
-                href: '/contact',
-            },
-            {
-                text: 'About',
-                href: '/about',
-            },
-        ]
-    }),
-    message: new Message(),
+    models: {
+        navigation: new Navigation({
+            links: [
+                {
+                    text: 'skills',
+                    href: '/skills'
+                },
+                {
+                    text: 'Contact',
+                    href: '/contact',
+                },
+                {
+                    text: 'About',
+                    href: '/about',
+                },
+            ]
+        }),
+        message: new Message(),
+    },
+    trackingId: window.trackingId,
 });
 
 window.chantron = chantron;

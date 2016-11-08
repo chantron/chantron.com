@@ -1,6 +1,6 @@
 {
   "name": "chantron.com",
-  "version": "0.0.1",
+  "version": "1.0.1",
   "description": "Seating chart creator",
   "main": "index.js",
   "scripts": {

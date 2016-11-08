@@ -8,7 +8,12 @@ module.exports = gobble([
     gobble('node_modules/font-awesome/fonts').moveTo('fonts'),
     gobble('resources/static/images').moveTo('images'),
     gobble('resources/sass')
-    .transform('sass', {src: 'style.scss', dest: 'css/style.css'}),
+    .transform('sass', {
+        src: 'style.scss',
+        dest: 'css/style.css',
+        outputStyle: 'compressed',
+        sourceMapEmbed: true
+    }),
     gobble('resources/js').transform('rollup', {
         entry: 'chantron.js',
         dest: 'js/chantron.js',

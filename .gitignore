@@ -4,3 +4,4 @@ build
 dist
 vendor
 .env
+pub/assets/

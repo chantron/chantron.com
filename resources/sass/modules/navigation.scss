@@ -50,8 +50,6 @@
     padding: $padding;
     text-decoration: none;
     text-transform: uppercase;
-    transition-duration: 1s;
-    transition-property: text-shadow, color;
 }
 
 .navigation-list-item-title a:hover {
@@ -68,6 +66,7 @@
     padding: $padding;
     text-decoration: none;
     text-transform: uppercase;
+    transition: color .25s ease-in-out, background-color .25s ease-in-out;
 }
 
 .navigation-list-item-link.active {

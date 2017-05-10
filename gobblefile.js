@@ -30,7 +30,8 @@ module.exports = gobble([
         src: 'style.scss',
         dest: 'css/style.css',
         outputStyle: 'compressed',
-        sourceMapEmbed: true
+        sourceMapEmbed: true,
+        includePaths: ['node_modules']
     }),
     gobble('resources/js').transform('rollup', {
         entry: 'chantron.js',

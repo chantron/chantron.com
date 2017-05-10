@@ -11404,7 +11404,7 @@
       }.call(__commonjs_global));
       });
 
-      var require$$1 = (underscore && typeof underscore === 'object' && 'default' in underscore ? underscore['default'] : underscore);
+      var _ = (underscore && typeof underscore === 'object' && 'default' in underscore ? underscore['default'] : underscore);
 
       var backbone = __commonjs(function (module, exports, global) {
       //     Backbone.js 1.3.3
@@ -11423,24 +11423,24 @@
 
         // Set up Backbone appropriately for the environment. Start with AMD.
         if (typeof define === 'function' && define.amd) {
-          define(['underscore', 'jquery', 'exports'], function(_, $$$, exports) {
+          define(['underscore', 'jquery', 'exports'], function(_$$, $$$, exports) {
             // Export global even in AMD case in case this script is loaded with
             // others that may still expect a global Backbone.
-            root.Backbone = factory(root, exports, _, $$$);
+            root.Backbone = factory(root, exports, _$$, $$$);
           });
 
         // Next for Node.js or CommonJS. jQuery may not be needed as a module.
         } else if (typeof exports !== 'undefined') {
-          var _ = require$$1, $$$;
+          var _$$ = _, $$$;
           try { $$$ = $; } catch (e) {}
-          factory(root, exports, _, $$$);
+          factory(root, exports, _$$, $$$);
 
         // Finally, as a browser global.
         } else {
           root.Backbone = factory(root, {}, root._, (root.jQuery || root.Zepto || root.ender || root.$));
         }
 
-      })(function(root, Backbone, _, $$$) {
+      })(function(root, Backbone, _$$, $$$) {
 
         // Initial Setup
         // -------------
@@ -11487,39 +11487,39 @@
         var addMethod = function(length, method, attribute) {
           switch (length) {
             case 1: return function() {
-              return _[method](this[attribute]);
+              return _$$[method](this[attribute]);
             };
             case 2: return function(value) {
-              return _[method](this[attribute], value);
+              return _$$[method](this[attribute], value);
             };
             case 3: return function(iteratee, context) {
-              return _[method](this[attribute], cb(iteratee, this), context);
+              return _$$[method](this[attribute], cb(iteratee, this), context);
             };
             case 4: return function(iteratee, defaultVal, context) {
-              return _[method](this[attribute], cb(iteratee, this), defaultVal, context);
+              return _$$[method](this[attribute], cb(iteratee, this), defaultVal, context);
             };
             default: return function() {
               var args = slice.call(arguments);
               args.unshift(this[attribute]);
-              return _[method].apply(_, args);
+              return _$$[method].apply(_$$, args);
             };
           }
         };
         var addUnderscoreMethods = function(Class, methods, attribute) {
-          _.each(methods, function(length, method) {
-            if (_[method]) { Class.prototype[method] = addMethod(length, method, attribute); }
+          _$$.each(methods, function(length, method) {
+            if (_$$[method]) { Class.prototype[method] = addMethod(length, method, attribute); }
           });
         };
 
         // Support `collection.sortBy('attr')` and `collection.findWhere({id: 1})`.
         var cb = function(iteratee, instance) {
-          if (_.isFunction(iteratee)) { return iteratee; }
-          if (_.isObject(iteratee) && !instance._isModel(iteratee)) { return modelMatcher(iteratee); }
-          if (_.isString(iteratee)) { return function(model) { return model.get(iteratee); }; }
+          if (_$$.isFunction(iteratee)) { return iteratee; }
+          if (_$$.isObject(iteratee) && !instance._isModel(iteratee)) { return modelMatcher(iteratee); }
+          if (_$$.isString(iteratee)) { return function(model) { return model.get(iteratee); }; }
           return iteratee;
         };
         var modelMatcher = function(attrs) {
-          var matcher = _.matches(attrs);
+          var matcher = _$$.matches(attrs);
           return function(model) {
             return matcher(model.attributes);
           };
@@ -11551,7 +11551,7 @@
           if (name && typeof name === 'object') {
             // Handle event maps.
             if (callback !== void 0 && 'context' in opts && opts.context === void 0) { opts.context = callback; }
-            for (names = _.keys(name); i < names.length ; i++) {
+            for (names = _$$.keys(name); i < names.length ; i++) {
               events = eventsApi(iteratee, events, names[i], name[names[i]], opts);
             }
           } else if (name && eventSplitter.test(name)) {
@@ -11593,14 +11593,14 @@
         // for easier unbinding later.
         Events.listenTo = function(obj, name, callback) {
           if (!obj) { return this; }
-          var id = obj._listenId || (obj._listenId = _.uniqueId('l'));
+          var id = obj._listenId || (obj._listenId = _$$.uniqueId('l'));
           var listeningTo = this._listeningTo || (this._listeningTo = {});
           var listening = listeningTo[id];
 
           // This object is not listening to any other events on `obj` yet.
           // Setup the necessary references to track the listening callbacks.
           if (!listening) {
-            var thisId = this._listenId || (this._listenId = _.uniqueId('l'));
+            var thisId = this._listenId || (this._listenId = _$$.uniqueId('l'));
             listening = listeningTo[id] = {obj: obj, objId: id, id: thisId, listeningTo: listeningTo, count: 0};
           }
 
@@ -11642,7 +11642,7 @@
           var listeningTo = this._listeningTo;
           if (!listeningTo) { return this; }
 
-          var ids = obj ? [obj._listenId] : _.keys(listeningTo);
+          var ids = obj ? [obj._listenId] : _$$.keys(listeningTo);
 
           for (var i = 0; i < ids.length; i++) {
             var listening = listeningTo[ids[i]];
@@ -11666,7 +11666,7 @@
 
           // Delete all events listeners and "drop" events.
           if (!name && !callback && !context) {
-            var ids = _.keys(listeners);
+            var ids = _$$.keys(listeners);
             for (; i < ids.length; i++) {
               listening = listeners[ids[i]];
               delete listeners[listening.id];
@@ -11675,7 +11675,7 @@
             return;
           }
 
-          var names = name ? [name] : _.keys(events);
+          var names = name ? [name] : _$$.keys(events);
           for (; i < names.length; i++) {
             name = names[i];
             var handlers = events[name];
@@ -11718,7 +11718,7 @@
         // once for each event, not once for a combination of all events.
         Events.once = function(name, callback, context) {
           // Map the event into a `{event: once}` object.
-          var events = eventsApi(onceMap, {}, name, callback, _.bind(this.off, this));
+          var events = eventsApi(onceMap, {}, name, callback, _$$.bind(this.off, this));
           if (typeof name === 'string' && context == null) { callback = void 0; }
           return this.on(events, callback, context);
         };
@@ -11726,7 +11726,7 @@
         // Inversion-of-control versions of `once`.
         Events.listenToOnce = function(obj, name, callback) {
           // Map the event into a `{event: once}` object.
-          var events = eventsApi(onceMap, {}, name, callback, _.bind(this.stopListening, this, obj));
+          var events = eventsApi(onceMap, {}, name, callback, _$$.bind(this.stopListening, this, obj));
           return this.listenTo(obj, events);
         };
 
@@ -11734,7 +11734,7 @@
         // `offer` unbinds the `onceWrapper` after it has been called.
         var onceMap = function(map, name, callback, offer) {
           if (callback) {
-            var once = map[name] = _.once(function() {
+            var once = map[name] = _$$.once(function() {
               offer(name, once);
               callback.apply(this, arguments);
             });
@@ -11792,7 +11792,7 @@
 
         // Allow the `Backbone` object to serve as a global event bus, for folks who
         // want global "pubsub" in a convenient place.
-        _.extend(Backbone, Events);
+        _$$.extend(Backbone, Events);
 
         // Backbone.Model
         // --------------
@@ -11807,19 +11807,19 @@
         var Model = Backbone.Model = function(attributes, options) {
           var attrs = attributes || {};
           options || (options = {});
-          this.cid = _.uniqueId(this.cidPrefix);
+          this.cid = _$$.uniqueId(this.cidPrefix);
           this.attributes = {};
           if (options.collection) { this.collection = options.collection; }
           if (options.parse) { attrs = this.parse(attrs, options) || {}; }
-          var defaults = _.result(this, 'defaults');
-          attrs = _.defaults(_.extend({}, defaults, attrs), defaults);
+          var defaults = _$$.result(this, 'defaults');
+          attrs = _$$.defaults(_$$.extend({}, defaults, attrs), defaults);
           this.set(attrs, options);
           this.changed = {};
           this.initialize.apply(this, arguments);
         };
 
         // Attach all inheritable methods to the Model prototype.
-        _.extend(Model.prototype, Events, {
+        _$$.extend(Model.prototype, Events, {
 
           // A hash of attributes whose current and previous value differ.
           changed: null,
@@ -11841,7 +11841,7 @@
 
           // Return a copy of the model's `attributes` object.
           toJSON: function(options) {
-            return _.clone(this.attributes);
+            return _$$.clone(this.attributes);
           },
 
           // Proxy `Backbone.sync` by default -- but override this if you need
@@ -11857,7 +11857,7 @@
 
           // Get the HTML-escaped value of an attribute.
           escape: function(attr) {
-            return _.escape(this.get(attr));
+            return _$$.escape(this.get(attr));
           },
 
           // Returns `true` if the attribute contains a value that is not null
@@ -11868,7 +11868,7 @@
 
           // Special-cased proxy to underscore's `_.matches` method.
           matches: function(attrs) {
-            return !!_.iteratee(attrs, this)(this.attributes);
+            return !!_$$.iteratee(attrs, this)(this.attributes);
           },
 
           // Set a hash of model attributes on the object, firing `"change"`. This is
@@ -11901,7 +11901,7 @@
             this._changing = true;
 
             if (!changing) {
-              this._previousAttributes = _.clone(this.attributes);
+              this._previousAttributes = _$$.clone(this.attributes);
               this.changed = {};
             }
 
@@ -11912,8 +11912,8 @@
             // For each `set` attribute, update or delete the current value.
             for (var attr in attrs) {
               val = attrs[attr];
-              if (!_.isEqual(current[attr], val)) { changes.push(attr); }
-              if (!_.isEqual(prev[attr], val)) {
+              if (!_$$.isEqual(current[attr], val)) { changes.push(attr); }
+              if (!_$$.isEqual(prev[attr], val)) {
                 changed[attr] = val;
               } else {
                 delete changed[attr];
@@ -11950,7 +11950,7 @@
           // Remove an attribute from the model, firing `"change"`. `unset` is a noop
           // if the attribute doesn't exist.
           unset: function(attr, options) {
-            return this.set(attr, void 0, _.extend({}, options, {unset: true}));
+            return this.set(attr, void 0, _$$.extend({}, options, {unset: true}));
           },
 
           // Clear all attributes on the model, firing `"change"`.
@@ -11959,14 +11959,14 @@
 
             var attrs = {};
             for (var key in this$1.attributes) { attrs[key] = void 0; }
-            return this.set(attrs, _.extend({}, options, {unset: true}));
+            return this.set(attrs, _$$.extend({}, options, {unset: true}));
           },
 
           // Determine if the model has changed since the last `"change"` event.
           // If you specify an attribute name, determine if that attribute has changed.
           hasChanged: function(attr) {
-            if (attr == null) { return !_.isEmpty(this.changed); }
-            return _.has(this.changed, attr);
+            if (attr == null) { return !_$$.isEmpty(this.changed); }
+            return _$$.has(this.changed, attr);
           },
 
           // Return an object containing all the attributes that have changed, or
@@ -11976,15 +11976,15 @@
           // You can also pass an attributes object to diff against the model,
           // determining if there *would be* a change.
           changedAttributes: function(diff) {
-            if (!diff) { return this.hasChanged() ? _.clone(this.changed) : false; }
+            if (!diff) { return this.hasChanged() ? _$$.clone(this.changed) : false; }
             var old = this._changing ? this._previousAttributes : this.attributes;
             var changed = {};
             for (var attr in diff) {
               var val = diff[attr];
-              if (_.isEqual(old[attr], val)) { continue; }
+              if (_$$.isEqual(old[attr], val)) { continue; }
               changed[attr] = val;
             }
-            return _.size(changed) ? changed : false;
+            return _$$.size(changed) ? changed : false;
           },
 
           // Get the previous value of an attribute, recorded at the time the last
@@ -11997,13 +11997,13 @@
           // Get all of the attributes of the model at the time of the previous
           // `"change"` event.
           previousAttributes: function() {
-            return _.clone(this._previousAttributes);
+            return _$$.clone(this._previousAttributes);
           },
 
           // Fetch the model from the server, merging the response with the model's
           // local attributes. Any changed attributes will trigger a "change" event.
           fetch: function(options) {
-            options = _.extend({parse: true}, options);
+            options = _$$.extend({parse: true}, options);
             var model = this;
             var success = options.success;
             options.success = function(resp) {
@@ -12029,7 +12029,7 @@
               (attrs = {})[key] = val;
             }
 
-            options = _.extend({validate: true, parse: true}, options);
+            options = _$$.extend({validate: true, parse: true}, options);
             var wait = options.wait;
 
             // If we're not waiting and attributes exist, save acts as
@@ -12050,7 +12050,7 @@
               // Ensure attributes are restored during synchronous saves.
               model.attributes = attributes;
               var serverAttrs = options.parse ? model.parse(resp, options) : resp;
-              if (wait) { serverAttrs = _.extend({}, attrs, serverAttrs); }
+              if (wait) { serverAttrs = _$$.extend({}, attrs, serverAttrs); }
               if (serverAttrs && !model.set(serverAttrs, options)) { return false; }
               if (success) { success.call(options.context, model, resp, options); }
               model.trigger('sync', model, resp, options);
@@ -12058,7 +12058,7 @@
             wrapError(this, options);
 
             // Set temporary attributes if `{wait: true}` to properly find new ids.
-            if (attrs && wait) { this.attributes = _.extend({}, attributes, attrs); }
+            if (attrs && wait) { this.attributes = _$$.extend({}, attributes, attrs); }
 
             var method = this.isNew() ? 'create' : (options.patch ? 'patch' : 'update');
             if (method === 'patch' && !options.attrs) { options.attrs = attrs; }
@@ -12074,7 +12074,7 @@
           // Optimistically removes the model from its collection, if it has one.
           // If `wait: true` is passed, waits for the server to respond before removal.
           destroy: function(options) {
-            options = options ? _.clone(options) : {};
+            options = options ? _$$.clone(options) : {};
             var model = this;
             var success = options.success;
             var wait = options.wait;
@@ -12092,7 +12092,7 @@
 
             var xhr = false;
             if (this.isNew()) {
-              _.defer(options.success);
+              _$$.defer(options.success);
             } else {
               wrapError(this, options);
               xhr = this.sync('delete', this, options);
@@ -12106,8 +12106,8 @@
           // that will be called.
           url: function() {
             var base =
-              _.result(this, 'urlRoot') ||
-              _.result(this.collection, 'url') ||
+              _$$.result(this, 'urlRoot') ||
+              _$$.result(this.collection, 'url') ||
               urlError();
             if (this.isNew()) { return base; }
             var id = this.get(this.idAttribute);
@@ -12132,17 +12132,17 @@
 
           // Check if the model is currently in a valid state.
           isValid: function(options) {
-            return this._validate({}, _.extend({}, options, {validate: true}));
+            return this._validate({}, _$$.extend({}, options, {validate: true}));
           },
 
           // Run validation against the next complete set of model attributes,
           // returning `true` if all is well. Otherwise, fire an `"invalid"` event.
           _validate: function(attrs, options) {
             if (!options.validate || !this.validate) { return true; }
-            attrs = _.extend({}, this.attributes, attrs);
+            attrs = _$$.extend({}, this.attributes, attrs);
             var error = this.validationError = this.validate(attrs, options) || null;
             if (!error) { return true; }
-            this.trigger('invalid', this, error, _.extend(options, {validationError: error}));
+            this.trigger('invalid', this, error, _$$.extend(options, {validationError: error}));
             return false;
           }
 
@@ -12175,7 +12175,7 @@
           if (options.comparator !== void 0) { this.comparator = options.comparator; }
           this._reset();
           this.initialize.apply(this, arguments);
-          if (models) { this.reset(models, _.extend({silent: true}, options)); }
+          if (models) { this.reset(models, _$$.extend({silent: true}, options)); }
         };
 
         // Default options for `Collection#set`.
@@ -12194,7 +12194,7 @@
         };
 
         // Define the Collection's inheritable methods.
-        _.extend(Collection.prototype, Events, {
+        _$$.extend(Collection.prototype, Events, {
 
           // The default model for a collection is just a **Backbone.Model**.
           // This should be overridden in most cases.
@@ -12219,13 +12219,13 @@
           // Models or raw JavaScript objects to be converted to Models, or any
           // combination of the two.
           add: function(models, options) {
-            return this.set(models, _.extend({merge: false}, options, addOptions));
+            return this.set(models, _$$.extend({merge: false}, options, addOptions));
           },
 
           // Remove a model, or a list of models from the set.
           remove: function(models, options) {
-            options = _.extend({}, options);
-            var singular = !_.isArray(models);
+            options = _$$.extend({}, options);
+            var singular = !_$$.isArray(models);
             models = singular ? [models] : models.slice();
             var removed = this._removeModels(models, options);
             if (!options.silent && removed.length) {
@@ -12244,12 +12244,12 @@
 
             if (models == null) { return; }
 
-            options = _.extend({}, setOptions, options);
+            options = _$$.extend({}, setOptions, options);
             if (options.parse && !this._isModel(models)) {
               models = this.parse(models, options) || [];
             }
 
-            var singular = !_.isArray(models);
+            var singular = !_$$.isArray(models);
             models = singular ? [models] : models.slice();
 
             var at = options.at;
@@ -12269,7 +12269,7 @@
 
             var sort = false;
             var sortable = this.comparator && at == null && options.sort !== false;
-            var sortAttr = _.isString(this.comparator) ? this.comparator : null;
+            var sortAttr = _$$.isString(this.comparator) ? this.comparator : null;
 
             // Turn bare objects into model references, and prevent invalid models
             // from being added.
@@ -12319,7 +12319,7 @@
             var orderChanged = false;
             var replace = !sortable && add && remove;
             if (set.length && replace) {
-              orderChanged = this.length !== set.length || _.some(this.models, function(m, index) {
+              orderChanged = this.length !== set.length || _$$.some(this.models, function(m, index) {
                 return m !== set[index];
               });
               this.models.length = 0;
@@ -12363,20 +12363,20 @@
           reset: function(models, options) {
             var this$1 = this;
 
-            options = options ? _.clone(options) : {};
+            options = options ? _$$.clone(options) : {};
             for (var i = 0; i < this.models.length; i++) {
               this$1._removeReference(this$1.models[i], options);
             }
             options.previousModels = this.models;
             this._reset();
-            models = this.add(models, _.extend({silent: true}, options));
+            models = this.add(models, _$$.extend({silent: true}, options));
             if (!options.silent) { this.trigger('reset', this, options); }
             return models;
           },
 
           // Add a model to the end of the collection.
           push: function(model, options) {
-            return this.add(model, _.extend({at: this.length}, options));
+            return this.add(model, _$$.extend({at: this.length}, options));
           },
 
           // Remove a model from the end of the collection.
@@ -12387,7 +12387,7 @@
 
           // Add a model to the beginning of the collection.
           unshift: function(model, options) {
-            return this.add(model, _.extend({at: 0}, options));
+            return this.add(model, _$$.extend({at: 0}, options));
           },
 
           // Remove a model from the beginning of the collection.
@@ -12442,10 +12442,10 @@
             options || (options = {});
 
             var length = comparator.length;
-            if (_.isFunction(comparator)) { comparator = _.bind(comparator, this); }
+            if (_$$.isFunction(comparator)) { comparator = _$$.bind(comparator, this); }
 
             // Run sort based on type of `comparator`.
-            if (length === 1 || _.isString(comparator)) {
+            if (length === 1 || _$$.isString(comparator)) {
               this.models = this.sortBy(comparator);
             } else {
               this.models.sort(comparator);
@@ -12463,7 +12463,7 @@
           // collection when they arrive. If `reset: true` is passed, the response
           // data will be passed through the `reset` method instead of `set`.
           fetch: function(options) {
-            options = _.extend({parse: true}, options);
+            options = _$$.extend({parse: true}, options);
             var success = options.success;
             var collection = this;
             options.success = function(resp) {
@@ -12480,7 +12480,7 @@
           // collection immediately, unless `wait: true` is passed, in which case we
           // wait for the server to agree.
           create: function(model, options) {
-            options = options ? _.clone(options) : {};
+            options = options ? _$$.clone(options) : {};
             var wait = options.wait;
             model = this._prepareModel(model, options);
             if (!model) { return false; }
@@ -12529,7 +12529,7 @@
               if (!attrs.collection) { attrs.collection = this; }
               return attrs;
             }
-            options = options ? _.clone(options) : {};
+            options = options ? _$$.clone(options) : {};
             options.collection = this;
             var model = new this.model(attrs, options);
             if (!model.validationError) { return model; }
@@ -12641,8 +12641,8 @@
         // Creating a Backbone.View creates its initial element outside of the DOM,
         // if an existing element is not provided...
         var View = Backbone.View = function(options) {
-          this.cid = _.uniqueId('view');
-          _.extend(this, _.pick(options, viewOptions));
+          this.cid = _$$.uniqueId('view');
+          _$$.extend(this, _$$.pick(options, viewOptions));
           this._ensureElement();
           this.initialize.apply(this, arguments);
         };
@@ -12654,7 +12654,7 @@
         var viewOptions = ['model', 'collection', 'el', 'id', 'attributes', 'className', 'tagName', 'events'];
 
         // Set up all inheritable **Backbone.View** properties and methods.
-        _.extend(View.prototype, Events, {
+        _$$.extend(View.prototype, Events, {
 
           // The default `tagName` of a View's element is `"div"`.
           tagName: 'div',
@@ -12726,15 +12726,15 @@
           delegateEvents: function(events) {
             var this$1 = this;
 
-            events || (events = _.result(this, 'events'));
+            events || (events = _$$.result(this, 'events'));
             if (!events) { return this; }
             this.undelegateEvents();
             for (var key in events) {
               var method = events[key];
-              if (!_.isFunction(method)) { method = this$1[method]; }
+              if (!_$$.isFunction(method)) { method = this$1[method]; }
               if (!method) { continue; }
               var match = key.match(delegateEventSplitter);
-              this$1.delegate(match[1], match[2], _.bind(method, this$1));
+              this$1.delegate(match[1], match[2], _$$.bind(method, this$1));
             }
             return this;
           },
@@ -12774,13 +12774,13 @@
           // an element from the `id`, `className` and `tagName` properties.
           _ensureElement: function() {
             if (!this.el) {
-              var attrs = _.extend({}, _.result(this, 'attributes'));
-              if (this.id) { attrs.id = _.result(this, 'id'); }
-              if (this.className) { attrs['class'] = _.result(this, 'className'); }
-              this.setElement(this._createElement(_.result(this, 'tagName')));
+              var attrs = _$$.extend({}, _$$.result(this, 'attributes'));
+              if (this.id) { attrs.id = _$$.result(this, 'id'); }
+              if (this.className) { attrs['class'] = _$$.result(this, 'className'); }
+              this.setElement(this._createElement(_$$.result(this, 'tagName')));
               this._setAttributes(attrs);
             } else {
-              this.setElement(_.result(this, 'el'));
+              this.setElement(_$$.result(this, 'el'));
             }
           },
 
@@ -12814,7 +12814,7 @@
           var type = methodMap[method];
 
           // Default options, unless specified.
-          _.defaults(options || (options = {}), {
+          _$$.defaults(options || (options = {}), {
             emulateHTTP: Backbone.emulateHTTP,
             emulateJSON: Backbone.emulateJSON
           });
@@ -12824,7 +12824,7 @@
 
           // Ensure that we have a URL.
           if (!options.url) {
-            params.url = _.result(model, 'url') || urlError();
+            params.url = _$$.result(model, 'url') || urlError();
           }
 
           // Ensure that we have the appropriate request data.
@@ -12865,7 +12865,7 @@
           };
 
           // Make the request, allowing the user to override any Ajax options.
-          var xhr = options.xhr = Backbone.ajax(_.extend(params, options));
+          var xhr = options.xhr = Backbone.ajax(_$$.extend(params, options));
           model.trigger('request', model, xhr, options);
           return xhr;
         };
@@ -12905,7 +12905,7 @@
         var escapeRegExp  = /[\-{}\[\]+?.,\\\^$|#\s]/g;
 
         // Set up all inheritable **Backbone.Router** properties and methods.
-        _.extend(Router.prototype, Events, {
+        _$$.extend(Router.prototype, Events, {
 
           // Initialize is an empty function by default. Override it with your own
           // initialization logic.
@@ -12918,8 +12918,8 @@
           //     });
           //
           route: function(route, name, callback) {
-            if (!_.isRegExp(route)) { route = this._routeToRegExp(route); }
-            if (_.isFunction(name)) {
+            if (!_$$.isRegExp(route)) { route = this._routeToRegExp(route); }
+            if (_$$.isFunction(name)) {
               callback = name;
               name = '';
             }
@@ -12955,8 +12955,8 @@
             var this$1 = this;
 
             if (!this.routes) { return; }
-            this.routes = _.result(this, 'routes');
-            var route, routes = _.keys(this.routes);
+            this.routes = _$$.result(this, 'routes');
+            var route, routes = _$$.keys(this.routes);
             while ((route = routes.pop()) != null) {
               this$1.route(route, this$1.routes[route]);
             }
@@ -12979,7 +12979,7 @@
           // treated as `null` to normalize cross-browser behavior.
           _extractParameters: function(route, fragment) {
             var params = route.exec(fragment).slice(1);
-            return _.map(params, function(param, i) {
+            return _$$.map(params, function(param, i) {
               // Don't decode the search params.
               if (i === params.length - 1) { return param || null; }
               return param ? decodeURIComponent(param) : null;
@@ -12998,7 +12998,7 @@
         // falls back to polling.
         var History = Backbone.History = function() {
           this.handlers = [];
-          this.checkUrl = _.bind(this.checkUrl, this);
+          this.checkUrl = _$$.bind(this.checkUrl, this);
 
           // Ensure that `History` can be used outside of the browser.
           if (typeof window !== 'undefined') {
@@ -13020,7 +13020,7 @@
         History.started = false;
 
         // Set up all inheritable **Backbone.History** properties and methods.
-        _.extend(History.prototype, Events, {
+        _$$.extend(History.prototype, Events, {
 
           // The default interval to poll for hash changes, if necessary, is
           // twenty times a second.
@@ -13088,7 +13088,7 @@
 
             // Figure out the initial configuration. Do we need an iframe?
             // Is pushState desired ... is it available?
-            this.options          = _.extend({root: '/'}, this.options, options);
+            this.options          = _$$.extend({root: '/'}, this.options, options);
             this.root             = this.options.root;
             this._wantsHashChange = this.options.hashChange !== false;
             this._hasHashChange   = 'onhashchange' in window && (document.documentMode === void 0 || document.documentMode > 7);
@@ -13210,7 +13210,7 @@
             // If the root doesn't match, no routes can match either.
             if (!this.matchRoot()) { return false; }
             fragment = this.fragment = this.getFragment(fragment);
-            return _.some(this.handlers, function(handler) {
+            return _$$.some(this.handlers, function(handler) {
               if (handler.route.test(fragment)) {
                 handler.callback(fragment);
                 return true;
@@ -13305,18 +13305,18 @@
           // The constructor function for the new subclass is either defined by you
           // (the "constructor" property in your `extend` definition), or defaulted
           // by us to simply call the parent constructor.
-          if (protoProps && _.has(protoProps, 'constructor')) {
+          if (protoProps && _$$.has(protoProps, 'constructor')) {
             child = protoProps.constructor;
           } else {
             child = function(){ return parent.apply(this, arguments); };
           }
 
           // Add static properties to the constructor function, if supplied.
-          _.extend(child, parent, staticProps);
+          _$$.extend(child, parent, staticProps);
 
           // Set the prototype chain to inherit from `parent`, without calling
           // `parent`'s constructor function and add the prototype properties.
-          child.prototype = _.create(parent.prototype, protoProps);
+          child.prototype = _$$.create(parent.prototype, protoProps);
           child.prototype.constructor = child;
 
           // Set a convenience property in case the parent's prototype is needed
@@ -13376,7 +13376,7 @@
       module.exports = exports['default'];
       });
 
-      var require$$0$8 = (toString && typeof toString === 'object' && 'default' in toString ? toString['default'] : toString);
+      var require$$0 = (toString && typeof toString === 'object' && 'default' in toString ? toString['default'] : toString);
 
       var merge = __commonjs(function (module, exports) {
       'use strict';
@@ -13399,7 +13399,7 @@
       module.exports = exports['default'];
       });
 
-      var require$$2$1 = (merge && typeof merge === 'object' && 'default' in merge ? merge['default'] : merge);
+      var require$$0$1 = (merge && typeof merge === 'object' && 'default' in merge ? merge['default'] : merge);
 
       var assertString = __commonjs(function (module, exports) {
       'use strict';
@@ -13416,7 +13416,7 @@
       module.exports = exports['default'];
       });
 
-      var require$$0$13 = (assertString && typeof assertString === 'object' && 'default' in assertString ? assertString['default'] : assertString);
+      var require$$0$2 = (assertString && typeof assertString === 'object' && 'default' in assertString ? assertString['default'] : assertString);
 
       var isFQDN = __commonjs(function (module, exports) {
       'use strict';
@@ -13426,11 +13426,11 @@
       });
       exports.default = isFDQN;
 
-      var _assertString = require$$0$13;
+      var _assertString = require$$0$2;
 
       var _assertString2 = _interopRequireDefault(_assertString);
 
-      var _merge = require$$2$1;
+      var _merge = require$$0$1;
 
       var _merge2 = _interopRequireDefault(_merge);
 
@@ -13478,7 +13478,7 @@
       module.exports = exports['default'];
       });
 
-      var require$$0$5 = (isFQDN && typeof isFQDN === 'object' && 'default' in isFQDN ? isFQDN['default'] : isFQDN);
+      var require$$2 = (isFQDN && typeof isFQDN === 'object' && 'default' in isFQDN ? isFQDN['default'] : isFQDN);
 
       var isByteLength = __commonjs(function (module, exports) {
       'use strict';
@@ -13491,7 +13491,7 @@
 
       exports.default = isByteLength;
 
-      var _assertString = require$$0$13;
+      var _assertString = require$$0$2;
 
       var _assertString2 = _interopRequireDefault(_assertString);
 
@@ -13516,7 +13516,7 @@
       module.exports = exports['default'];
       });
 
-      var require$$1$3 = (isByteLength && typeof isByteLength === 'object' && 'default' in isByteLength ? isByteLength['default'] : isByteLength);
+      var require$$1$2 = (isByteLength && typeof isByteLength === 'object' && 'default' in isByteLength ? isByteLength['default'] : isByteLength);
 
       var isEmail = __commonjs(function (module, exports) {
       'use strict';
@@ -13526,19 +13526,19 @@
       });
       exports.default = isEmail;
 
-      var _assertString = require$$0$13;
+      var _assertString = require$$0$2;
 
       var _assertString2 = _interopRequireDefault(_assertString);
 
-      var _merge = require$$2$1;
+      var _merge = require$$0$1;
 
       var _merge2 = _interopRequireDefault(_merge);
 
-      var _isByteLength = require$$1$3;
+      var _isByteLength = require$$1$2;
 
       var _isByteLength2 = _interopRequireDefault(_isByteLength);
 
-      var _isFQDN = require$$0$5;
+      var _isFQDN = require$$2;
 
       var _isFQDN2 = _interopRequireDefault(_isFQDN);
 
@@ -13546,6 +13546,7 @@
 
       var default_email_options = {
         allow_display_name: false,
+        require_display_name: false,
         allow_utf8_local_part: true,
         require_tld: true
       };
@@ -13564,10 +13565,12 @@
         (0, _assertString2.default)(str);
         options = (0, _merge2.default)(options, default_email_options);
 
-        if (options.allow_display_name) {
+        if (options.require_display_name || options.allow_display_name) {
           var display_email = str.match(displayName);
           if (display_email) {
             str = display_email[1];
+          } else if (options.require_display_name) {
+            return false;
           }
         }
 
@@ -13607,7 +13610,7 @@
       module.exports = exports['default'];
       });
 
-      var require$$1$6 = (isEmail && typeof isEmail === 'object' && 'default' in isEmail ? isEmail['default'] : isEmail);
+      var require$$1$1 = (isEmail && typeof isEmail === 'object' && 'default' in isEmail ? isEmail['default'] : isEmail);
 
       var normalizeEmail = __commonjs(function (module, exports) {
       'use strict';
@@ -13617,11 +13620,11 @@
       });
       exports.default = normalizeEmail;
 
-      var _isEmail = require$$1$6;
+      var _isEmail = require$$1$1;
 
       var _isEmail2 = _interopRequireDefault(_isEmail);
 
-      var _merge = require$$2$1;
+      var _merge = require$$0$1;
 
       var _merge2 = _interopRequireDefault(_merge);
 
@@ -13740,18 +13743,16 @@
           if (options.all_lowercase || options.yahoo_lowercase) {
             parts[0] = parts[0].toLowerCase();
           }
-        } else {
+        } else if (options.all_lowercase) {
           // Any other address
-          if (options.all_lowercase) {
-            parts[0] = parts[0].toLowerCase();
-          }
+          parts[0] = parts[0].toLowerCase();
         }
         return parts.join('@');
       }
       module.exports = exports['default'];
       });
 
-      var require$$1$1 = (normalizeEmail && typeof normalizeEmail === 'object' && 'default' in normalizeEmail ? normalizeEmail['default'] : normalizeEmail);
+      var require$$1 = (normalizeEmail && typeof normalizeEmail === 'object' && 'default' in normalizeEmail ? normalizeEmail['default'] : normalizeEmail);
 
       var isWhitelisted = __commonjs(function (module, exports) {
       'use strict';
@@ -13761,7 +13762,7 @@
       });
       exports.default = isWhitelisted;
 
-      var _assertString = require$$0$13;
+      var _assertString = require$$0$2;
 
       var _assertString2 = _interopRequireDefault(_assertString);
 
@@ -13779,7 +13780,7 @@
       module.exports = exports['default'];
       });
 
-      var require$$2 = (isWhitelisted && typeof isWhitelisted === 'object' && 'default' in isWhitelisted ? isWhitelisted['default'] : isWhitelisted);
+      var require$$2$1 = (isWhitelisted && typeof isWhitelisted === 'object' && 'default' in isWhitelisted ? isWhitelisted['default'] : isWhitelisted);
 
       var blacklist = __commonjs(function (module, exports) {
       'use strict';
@@ -13789,7 +13790,7 @@
       });
       exports.default = blacklist;
 
-      var _assertString = require$$0$13;
+      var _assertString = require$$0$2;
 
       var _assertString2 = _interopRequireDefault(_assertString);
 
@@ -13802,7 +13803,7 @@
       module.exports = exports['default'];
       });
 
-      var require$$0 = (blacklist && typeof blacklist === 'object' && 'default' in blacklist ? blacklist['default'] : blacklist);
+      var require$$0$3 = (blacklist && typeof blacklist === 'object' && 'default' in blacklist ? blacklist['default'] : blacklist);
 
       var whitelist = __commonjs(function (module, exports) {
       'use strict';
@@ -13812,7 +13813,7 @@
       });
       exports.default = whitelist;
 
-      var _assertString = require$$0$13;
+      var _assertString = require$$0$2;
 
       var _assertString2 = _interopRequireDefault(_assertString);
 
@@ -13835,11 +13836,11 @@
       });
       exports.default = stripLow;
 
-      var _assertString = require$$0$13;
+      var _assertString = require$$0$2;
 
       var _assertString2 = _interopRequireDefault(_assertString);
 
-      var _blacklist = require$$0;
+      var _blacklist = require$$0$3;
 
       var _blacklist2 = _interopRequireDefault(_blacklist);
 
@@ -13863,7 +13864,7 @@
       });
       exports.default = unescape;
 
-      var _assertString = require$$0$13;
+      var _assertString = require$$0$2;
 
       var _assertString2 = _interopRequireDefault(_assertString);
 
@@ -13886,7 +13887,7 @@
       });
       exports.default = escape;
 
-      var _assertString = require$$0$13;
+      var _assertString = require$$0$2;
 
       var _assertString2 = _interopRequireDefault(_assertString);
 
@@ -13909,7 +13910,7 @@
       });
       exports.default = ltrim;
 
-      var _assertString = require$$0$13;
+      var _assertString = require$$0$2;
 
       var _assertString2 = _interopRequireDefault(_assertString);
 
@@ -13923,7 +13924,7 @@
       module.exports = exports['default'];
       });
 
-      var require$$0$1 = (ltrim && typeof ltrim === 'object' && 'default' in ltrim ? ltrim['default'] : ltrim);
+      var require$$0$4 = (ltrim && typeof ltrim === 'object' && 'default' in ltrim ? ltrim['default'] : ltrim);
 
       var rtrim = __commonjs(function (module, exports) {
       'use strict';
@@ -13933,7 +13934,7 @@
       });
       exports.default = rtrim;
 
-      var _assertString = require$$0$13;
+      var _assertString = require$$0$2;
 
       var _assertString2 = _interopRequireDefault(_assertString);
 
@@ -13953,7 +13954,7 @@
       module.exports = exports['default'];
       });
 
-      var require$$1$2 = (rtrim && typeof rtrim === 'object' && 'default' in rtrim ? rtrim['default'] : rtrim);
+      var require$$1$3 = (rtrim && typeof rtrim === 'object' && 'default' in rtrim ? rtrim['default'] : rtrim);
 
       var trim = __commonjs(function (module, exports) {
       'use strict';
@@ -13963,11 +13964,11 @@
       });
       exports.default = trim;
 
-      var _rtrim = require$$1$2;
+      var _rtrim = require$$1$3;
 
       var _rtrim2 = _interopRequireDefault(_rtrim);
 
-      var _ltrim = require$$0$1;
+      var _ltrim = require$$0$4;
 
       var _ltrim2 = _interopRequireDefault(_ltrim);
 
@@ -13989,7 +13990,7 @@
       });
       exports.default = isDataURI;
 
-      var _assertString = require$$0$13;
+      var _assertString = require$$0$2;
 
       var _assertString2 = _interopRequireDefault(_assertString);
 
@@ -14014,7 +14015,7 @@
       });
       exports.default = isBase64;
 
-      var _assertString = require$$0$13;
+      var _assertString = require$$0$2;
 
       var _assertString2 = _interopRequireDefault(_assertString);
 
@@ -14049,7 +14050,7 @@
         return iso8601.test(str);
       };
 
-      var _assertString = require$$0$13;
+      var _assertString = require$$0$2;
 
       var _assertString2 = _interopRequireDefault(_assertString);
 
@@ -14061,7 +14062,7 @@
       /* eslint-enable max-len */
       });
 
-      var require$$0$2 = (isISO8601 && typeof isISO8601 === 'object' && 'default' in isISO8601 ? isISO8601['default'] : isISO8601);
+      var require$$13 = (isISO8601 && typeof isISO8601 === 'object' && 'default' in isISO8601 ? isISO8601['default'] : isISO8601);
 
       var isCurrency = __commonjs(function (module, exports) {
       'use strict';
@@ -14071,11 +14072,11 @@
       });
       exports.default = isCurrency;
 
-      var _merge = require$$2$1;
+      var _merge = require$$0$1;
 
       var _merge2 = _interopRequireDefault(_merge);
 
-      var _assertString = require$$0$13;
+      var _assertString = require$$0$2;
 
       var _assertString2 = _interopRequireDefault(_assertString);
 
@@ -14164,7 +14165,7 @@
       });
       exports.default = isMobilePhone;
 
-      var _assertString = require$$0$13;
+      var _assertString = require$$0$2;
 
       var _assertString2 = _interopRequireDefault(_assertString);
 
@@ -14184,12 +14185,14 @@
         'en-GB': /^(\+?44|0)7\d{9}$/,
         'en-HK': /^(\+?852\-?)?[569]\d{3}\-?\d{4}$/,
         'en-IN': /^(\+?91|0)?[789]\d{9}$/,
+        'en-NG': /^(\+?234|0)?[789]\d{9}$/,
         'en-NZ': /^(\+?64|0)2\d{7,9}$/,
         'en-ZA': /^(\+?27|0)\d{9}$/,
         'en-ZM': /^(\+?26)?09[567]\d{7}$/,
         'es-ES': /^(\+?34)?(6\d{1}|7[1234])\d{7}$/,
         'fi-FI': /^(\+?358|0)\s?(4(0|1|2|4|5)?|50)\s?(\d\s?){4,8}\d$/,
         'fr-FR': /^(\+?33|0)[67]\d{8}$/,
+        'he-IL': /^(\+972|0)([23489]|5[0248]|77)[1-9]\d{6}/,
         'hu-HU': /^(\+?36)(20|30|70)\d{7}$/,
         'it-IT': /^(\+?39)?\s?3\d{2} ?\d{6,7}$/,
         'ja-JP': /^(\+?81|0)\d{1,4}[ \-]?\d{1,4}[ \-]?\d{4}$/,
@@ -14200,6 +14203,8 @@
         'pl-PL': /^(\+?48)? ?[5-8]\d ?\d{3} ?\d{2} ?\d{2}$/,
         'pt-BR': /^(\+?55|0)\-?[1-9]{2}\-?[2-9]{1}\d{3,4}\-?\d{4}$/,
         'pt-PT': /^(\+?351)?9[1236]\d{7}$/,
+        'ro-RO': /^(\+?4?0)\s?7\d{2}(\/|\s|\.|\-)?\d{3}(\s|\.|\-)?\d{3}$/,
+        'en-PK': /^((\+92)|(0092))-{0,1}\d{3}-{0,1}\d{7}$|^\d{11}$|^\d{4}-\d{7}$/,
         'ru-RU': /^(\+?7|8)?9\d{9}$/,
         'sr-RS': /^(\+3816|06)[- \d]{5,9}$/,
         'tr-TR': /^(\+?90|0)?5\d{9}$/,
@@ -14212,6 +14217,7 @@
       // aliases
       phones['en-CA'] = phones['en-US'];
       phones['fr-BE'] = phones['nl-BE'];
+      phones['zh-HK'] = phones['en-HK'];
 
       function isMobilePhone(str, locale) {
         (0, _assertString2.default)(str);
@@ -14233,7 +14239,7 @@
       });
       exports.default = isISSN;
 
-      var _assertString = require$$0$13;
+      var _assertString = require$$0$2;
 
       var _assertString2 = _interopRequireDefault(_assertString);
 
@@ -14296,7 +14302,7 @@
       });
       exports.default = isISBN;
 
-      var _assertString = require$$0$13;
+      var _assertString = require$$0$2;
 
       var _assertString2 = _interopRequireDefault(_assertString);
 
@@ -14358,7 +14364,7 @@
       });
       exports.default = isISIN;
 
-      var _assertString = require$$0$13;
+      var _assertString = require$$0$2;
 
       var _assertString2 = _interopRequireDefault(_assertString);
 
@@ -14411,7 +14417,7 @@
       });
       exports.default = isCreditCard;
 
-      var _assertString = require$$0$13;
+      var _assertString = require$$0$2;
 
       var _assertString2 = _interopRequireDefault(_assertString);
 
@@ -14464,11 +14470,11 @@
 
       exports.default = isIn;
 
-      var _assertString = require$$0$13;
+      var _assertString = require$$0$2;
 
       var _assertString2 = _interopRequireDefault(_assertString);
 
-      var _toString = require$$0$8;
+      var _toString = require$$0;
 
       var _toString2 = _interopRequireDefault(_toString);
 
@@ -14505,7 +14511,7 @@
       });
       exports.default = toDate;
 
-      var _assertString = require$$0$13;
+      var _assertString = require$$0$2;
 
       var _assertString2 = _interopRequireDefault(_assertString);
 
@@ -14519,7 +14525,7 @@
       module.exports = exports['default'];
       });
 
-      var require$$0$7 = (toDate && typeof toDate === 'object' && 'default' in toDate ? toDate['default'] : toDate);
+      var require$$0$5 = (toDate && typeof toDate === 'object' && 'default' in toDate ? toDate['default'] : toDate);
 
       var isBefore = __commonjs(function (module, exports) {
       'use strict';
@@ -14529,11 +14535,11 @@
       });
       exports.default = isBefore;
 
-      var _assertString = require$$0$13;
+      var _assertString = require$$0$2;
 
       var _assertString2 = _interopRequireDefault(_assertString);
 
-      var _toDate = require$$0$7;
+      var _toDate = require$$0$5;
 
       var _toDate2 = _interopRequireDefault(_toDate);
 
@@ -14560,11 +14566,11 @@
       });
       exports.default = isAfter;
 
-      var _assertString = require$$0$13;
+      var _assertString = require$$0$2;
 
       var _assertString2 = _interopRequireDefault(_assertString);
 
-      var _toDate = require$$0$7;
+      var _toDate = require$$0$5;
 
       var _toDate2 = _interopRequireDefault(_toDate);
 
@@ -14583,111 +14589,6 @@
 
       var require$$22 = (isAfter && typeof isAfter === 'object' && 'default' in isAfter ? isAfter['default'] : isAfter);
 
-      var isDate = __commonjs(function (module, exports) {
-      'use strict';
-
-      Object.defineProperty(exports, "__esModule", {
-        value: true
-      });
-      exports.default = isDate;
-
-      var _assertString = require$$0$13;
-
-      var _assertString2 = _interopRequireDefault(_assertString);
-
-      var _isISO = require$$0$2;
-
-      function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-      function getTimezoneOffset(str) {
-        var iso8601Parts = str.match(_isISO.iso8601);
-        var timezone = void 0,
-            sign = void 0,
-            hours = void 0,
-            minutes = void 0;
-        if (!iso8601Parts) {
-          str = str.toLowerCase();
-          timezone = str.match(/(?:\s|gmt\s*)(-|\+)(\d{1,4})(\s|$)/);
-          if (!timezone) {
-            return str.indexOf('gmt') !== -1 ? 0 : null;
-          }
-          sign = timezone[1];
-          var offset = timezone[2];
-          if (offset.length === 3) {
-            offset = '0' + offset;
-          }
-          if (offset.length <= 2) {
-            hours = 0;
-            minutes = parseInt(offset, 10);
-          } else {
-            hours = parseInt(offset.slice(0, 2), 10);
-            minutes = parseInt(offset.slice(2, 4), 10);
-          }
-        } else {
-          timezone = iso8601Parts[21];
-          if (!timezone) {
-            // if no hour/minute was provided, the date is GMT
-            return !iso8601Parts[12] ? 0 : null;
-          }
-          if (timezone === 'z' || timezone === 'Z') {
-            return 0;
-          }
-          sign = iso8601Parts[22];
-          if (timezone.indexOf(':') !== -1) {
-            hours = parseInt(iso8601Parts[23], 10);
-            minutes = parseInt(iso8601Parts[24], 10);
-          } else {
-            hours = 0;
-            minutes = parseInt(iso8601Parts[23], 10);
-          }
-        }
-        return (hours * 60 + minutes) * (sign === '-' ? 1 : -1);
-      }
-
-      function isDate(str) {
-        (0, _assertString2.default)(str);
-        var normalizedDate = new Date(Date.parse(str));
-        if (isNaN(normalizedDate)) {
-          return false;
-        }
-
-        // normalizedDate is in the user's timezone. Apply the input
-        // timezone offset to the date so that the year and day match
-        // the input
-        var timezoneOffset = getTimezoneOffset(str);
-        if (timezoneOffset !== null) {
-          var timezoneDifference = normalizedDate.getTimezoneOffset() - timezoneOffset;
-          normalizedDate = new Date(normalizedDate.getTime() + 60000 * timezoneDifference);
-        }
-
-        var day = String(normalizedDate.getDate());
-        var dayOrYear = void 0,
-            dayOrYearMatches = void 0,
-            year = void 0;
-        // check for valid double digits that could be late days
-        // check for all matches since a string like '12/23' is a valid date
-        // ignore everything with nearby colons
-        dayOrYearMatches = str.match(/(^|[^:\d])[23]\d([^T:\d]|$)/g);
-        if (!dayOrYearMatches) {
-          return true;
-        }
-        dayOrYear = dayOrYearMatches.map(function (digitString) {
-          return digitString.match(/\d+/g)[0];
-        }).join('/');
-
-        year = String(normalizedDate.getFullYear()).slice(-2);
-        if (dayOrYear === day || dayOrYear === year) {
-          return true;
-        } else if (dayOrYear === '' + day / year || dayOrYear === '' + year / day) {
-          return true;
-        }
-        return false;
-      }
-      module.exports = exports['default'];
-      });
-
-      var require$$23 = (isDate && typeof isDate === 'object' && 'default' in isDate ? isDate['default'] : isDate);
-
       var isHexadecimal = __commonjs(function (module, exports) {
       'use strict';
 
@@ -14696,7 +14597,7 @@
       });
       exports.default = isHexadecimal;
 
-      var _assertString = require$$0$13;
+      var _assertString = require$$0$2;
 
       var _assertString2 = _interopRequireDefault(_assertString);
 
@@ -14711,7 +14612,7 @@
       module.exports = exports['default'];
       });
 
-      var require$$0$3 = (isHexadecimal && typeof isHexadecimal === 'object' && 'default' in isHexadecimal ? isHexadecimal['default'] : isHexadecimal);
+      var require$$0$6 = (isHexadecimal && typeof isHexadecimal === 'object' && 'default' in isHexadecimal ? isHexadecimal['default'] : isHexadecimal);
 
       var isMongoId = __commonjs(function (module, exports) {
       'use strict';
@@ -14721,11 +14622,11 @@
       });
       exports.default = isMongoId;
 
-      var _assertString = require$$0$13;
+      var _assertString = require$$0$2;
 
       var _assertString2 = _interopRequireDefault(_assertString);
 
-      var _isHexadecimal = require$$0$3;
+      var _isHexadecimal = require$$0$6;
 
       var _isHexadecimal2 = _interopRequireDefault(_isHexadecimal);
 
@@ -14738,7 +14639,7 @@
       module.exports = exports['default'];
       });
 
-      var require$$24 = (isMongoId && typeof isMongoId === 'object' && 'default' in isMongoId ? isMongoId['default'] : isMongoId);
+      var require$$23 = (isMongoId && typeof isMongoId === 'object' && 'default' in isMongoId ? isMongoId['default'] : isMongoId);
 
       var isUUID = __commonjs(function (module, exports) {
       'use strict';
@@ -14748,7 +14649,7 @@
       });
       exports.default = isUUID;
 
-      var _assertString = require$$0$13;
+      var _assertString = require$$0$2;
 
       var _assertString2 = _interopRequireDefault(_assertString);
 
@@ -14771,7 +14672,7 @@
       module.exports = exports['default'];
       });
 
-      var require$$25 = (isUUID && typeof isUUID === 'object' && 'default' in isUUID ? isUUID['default'] : isUUID);
+      var require$$24 = (isUUID && typeof isUUID === 'object' && 'default' in isUUID ? isUUID['default'] : isUUID);
 
       var isLength = __commonjs(function (module, exports) {
       'use strict';
@@ -14784,7 +14685,7 @@
 
       exports.default = isLength;
 
-      var _assertString = require$$0$13;
+      var _assertString = require$$0$2;
 
       var _assertString2 = _interopRequireDefault(_assertString);
 
@@ -14810,7 +14711,7 @@
       module.exports = exports['default'];
       });
 
-      var require$$27 = (isLength && typeof isLength === 'object' && 'default' in isLength ? isLength['default'] : isLength);
+      var require$$26 = (isLength && typeof isLength === 'object' && 'default' in isLength ? isLength['default'] : isLength);
 
       var isEmpty = __commonjs(function (module, exports) {
       'use strict';
@@ -14820,7 +14721,7 @@
       });
       exports.default = isEmpty;
 
-      var _assertString = require$$0$13;
+      var _assertString = require$$0$2;
 
       var _assertString2 = _interopRequireDefault(_assertString);
 
@@ -14833,7 +14734,7 @@
       module.exports = exports['default'];
       });
 
-      var require$$28 = (isEmpty && typeof isEmpty === 'object' && 'default' in isEmpty ? isEmpty['default'] : isEmpty);
+      var require$$27 = (isEmpty && typeof isEmpty === 'object' && 'default' in isEmpty ? isEmpty['default'] : isEmpty);
 
       var isJSON = __commonjs(function (module, exports) {
       'use strict';
@@ -14846,7 +14747,7 @@
 
       exports.default = isJSON;
 
-      var _assertString = require$$0$13;
+      var _assertString = require$$0$2;
 
       var _assertString2 = _interopRequireDefault(_assertString);
 
@@ -14863,7 +14764,7 @@
       module.exports = exports['default'];
       });
 
-      var require$$29 = (isJSON && typeof isJSON === 'object' && 'default' in isJSON ? isJSON['default'] : isJSON);
+      var require$$28 = (isJSON && typeof isJSON === 'object' && 'default' in isJSON ? isJSON['default'] : isJSON);
 
       var isMD5 = __commonjs(function (module, exports) {
       'use strict';
@@ -14873,7 +14774,7 @@
       });
       exports.default = isMD5;
 
-      var _assertString = require$$0$13;
+      var _assertString = require$$0$2;
 
       var _assertString2 = _interopRequireDefault(_assertString);
 
@@ -14888,7 +14789,7 @@
       module.exports = exports['default'];
       });
 
-      var require$$30 = (isMD5 && typeof isMD5 === 'object' && 'default' in isMD5 ? isMD5['default'] : isMD5);
+      var require$$29 = (isMD5 && typeof isMD5 === 'object' && 'default' in isMD5 ? isMD5['default'] : isMD5);
 
       var isHexColor = __commonjs(function (module, exports) {
       'use strict';
@@ -14898,7 +14799,7 @@
       });
       exports.default = isHexColor;
 
-      var _assertString = require$$0$13;
+      var _assertString = require$$0$2;
 
       var _assertString2 = _interopRequireDefault(_assertString);
 
@@ -14913,7 +14814,7 @@
       module.exports = exports['default'];
       });
 
-      var require$$31 = (isHexColor && typeof isHexColor === 'object' && 'default' in isHexColor ? isHexColor['default'] : isHexColor);
+      var require$$30 = (isHexColor && typeof isHexColor === 'object' && 'default' in isHexColor ? isHexColor['default'] : isHexColor);
 
       var toFloat = __commonjs(function (module, exports) {
       'use strict';
@@ -14923,7 +14824,7 @@
       });
       exports.default = toFloat;
 
-      var _assertString = require$$0$13;
+      var _assertString = require$$0$2;
 
       var _assertString2 = _interopRequireDefault(_assertString);
 
@@ -14936,7 +14837,7 @@
       module.exports = exports['default'];
       });
 
-      var require$$0$6 = (toFloat && typeof toFloat === 'object' && 'default' in toFloat ? toFloat['default'] : toFloat);
+      var require$$0$7 = (toFloat && typeof toFloat === 'object' && 'default' in toFloat ? toFloat['default'] : toFloat);
 
       var isDivisibleBy = __commonjs(function (module, exports) {
       'use strict';
@@ -14946,11 +14847,11 @@
       });
       exports.default = isDivisibleBy;
 
-      var _assertString = require$$0$13;
+      var _assertString = require$$0$2;
 
       var _assertString2 = _interopRequireDefault(_assertString);
 
-      var _toFloat = require$$0$6;
+      var _toFloat = require$$0$7;
 
       var _toFloat2 = _interopRequireDefault(_toFloat);
 
@@ -14963,7 +14864,7 @@
       module.exports = exports['default'];
       });
 
-      var require$$32 = (isDivisibleBy && typeof isDivisibleBy === 'object' && 'default' in isDivisibleBy ? isDivisibleBy['default'] : isDivisibleBy);
+      var require$$31 = (isDivisibleBy && typeof isDivisibleBy === 'object' && 'default' in isDivisibleBy ? isDivisibleBy['default'] : isDivisibleBy);
 
       var isDecimal = __commonjs(function (module, exports) {
       'use strict';
@@ -14973,7 +14874,7 @@
       });
       exports.default = isDecimal;
 
-      var _assertString = require$$0$13;
+      var _assertString = require$$0$2;
 
       var _assertString2 = _interopRequireDefault(_assertString);
 
@@ -14988,7 +14889,7 @@
       module.exports = exports['default'];
       });
 
-      var require$$34 = (isDecimal && typeof isDecimal === 'object' && 'default' in isDecimal ? isDecimal['default'] : isDecimal);
+      var require$$33 = (isDecimal && typeof isDecimal === 'object' && 'default' in isDecimal ? isDecimal['default'] : isDecimal);
 
       var isFloat = __commonjs(function (module, exports) {
       'use strict';
@@ -14998,13 +14899,13 @@
       });
       exports.default = isFloat;
 
-      var _assertString = require$$0$13;
+      var _assertString = require$$0$2;
 
       var _assertString2 = _interopRequireDefault(_assertString);
 
       function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-      var float = /^(?:[-+]?(?:[0-9]+))?(?:\.[0-9]*)?(?:[eE][\+\-]?(?:[0-9]+))?$/;
+      var float = /^(?:[-+])?(?:[0-9]+)?(?:\.[0-9]*)?(?:[eE][\+\-]?(?:[0-9]+))?$/;
 
       function isFloat(str, options) {
         (0, _assertString2.default)(str);
@@ -15017,7 +14918,7 @@
       module.exports = exports['default'];
       });
 
-      var require$$35 = (isFloat && typeof isFloat === 'object' && 'default' in isFloat ? isFloat['default'] : isFloat);
+      var require$$34 = (isFloat && typeof isFloat === 'object' && 'default' in isFloat ? isFloat['default'] : isFloat);
 
       var isInt = __commonjs(function (module, exports) {
       'use strict';
@@ -15027,7 +14928,7 @@
       });
       exports.default = isInt;
 
-      var _assertString = require$$0$13;
+      var _assertString = require$$0$2;
 
       var _assertString2 = _interopRequireDefault(_assertString);
 
@@ -15044,16 +14945,18 @@
         // leading zeroes are allowed or not.
         var regex = options.hasOwnProperty('allow_leading_zeroes') && !options.allow_leading_zeroes ? int : intLeadingZeroes;
 
-        // Check min/max
+        // Check min/max/lt/gt
         var minCheckPassed = !options.hasOwnProperty('min') || str >= options.min;
         var maxCheckPassed = !options.hasOwnProperty('max') || str <= options.max;
+        var ltCheckPassed = !options.hasOwnProperty('lt') || str < options.lt;
+        var gtCheckPassed = !options.hasOwnProperty('gt') || str > options.gt;
 
-        return regex.test(str) && minCheckPassed && maxCheckPassed;
+        return regex.test(str) && minCheckPassed && maxCheckPassed && ltCheckPassed && gtCheckPassed;
       }
       module.exports = exports['default'];
       });
 
-      var require$$36 = (isInt && typeof isInt === 'object' && 'default' in isInt ? isInt['default'] : isInt);
+      var require$$35 = (isInt && typeof isInt === 'object' && 'default' in isInt ? isInt['default'] : isInt);
 
       var isSurrogatePair = __commonjs(function (module, exports) {
       'use strict';
@@ -15063,7 +14966,7 @@
       });
       exports.default = isSurrogatePair;
 
-      var _assertString = require$$0$13;
+      var _assertString = require$$0$2;
 
       var _assertString2 = _interopRequireDefault(_assertString);
 
@@ -15078,7 +14981,7 @@
       module.exports = exports['default'];
       });
 
-      var require$$37 = (isSurrogatePair && typeof isSurrogatePair === 'object' && 'default' in isSurrogatePair ? isSurrogatePair['default'] : isSurrogatePair);
+      var require$$36 = (isSurrogatePair && typeof isSurrogatePair === 'object' && 'default' in isSurrogatePair ? isSurrogatePair['default'] : isSurrogatePair);
 
       var isMultibyte = __commonjs(function (module, exports) {
       'use strict';
@@ -15088,7 +14991,7 @@
       });
       exports.default = isMultibyte;
 
-      var _assertString = require$$0$13;
+      var _assertString = require$$0$2;
 
       var _assertString2 = _interopRequireDefault(_assertString);
 
@@ -15105,7 +15008,7 @@
       module.exports = exports['default'];
       });
 
-      var require$$38 = (isMultibyte && typeof isMultibyte === 'object' && 'default' in isMultibyte ? isMultibyte['default'] : isMultibyte);
+      var require$$37 = (isMultibyte && typeof isMultibyte === 'object' && 'default' in isMultibyte ? isMultibyte['default'] : isMultibyte);
 
       var isHalfWidth = __commonjs(function (module, exports) {
       'use strict';
@@ -15116,7 +15019,7 @@
       exports.halfWidth = undefined;
       exports.default = isHalfWidth;
 
-      var _assertString = require$$0$13;
+      var _assertString = require$$0$2;
 
       var _assertString2 = _interopRequireDefault(_assertString);
 
@@ -15130,7 +15033,7 @@
       }
       });
 
-      var require$$0$4 = (isHalfWidth && typeof isHalfWidth === 'object' && 'default' in isHalfWidth ? isHalfWidth['default'] : isHalfWidth);
+      var require$$0$8 = (isHalfWidth && typeof isHalfWidth === 'object' && 'default' in isHalfWidth ? isHalfWidth['default'] : isHalfWidth);
 
       var isFullWidth = __commonjs(function (module, exports) {
       'use strict';
@@ -15141,7 +15044,7 @@
       exports.fullWidth = undefined;
       exports.default = isFullWidth;
 
-      var _assertString = require$$0$13;
+      var _assertString = require$$0$2;
 
       var _assertString2 = _interopRequireDefault(_assertString);
 
@@ -15165,13 +15068,13 @@
       });
       exports.default = isVariableWidth;
 
-      var _assertString = require$$0$13;
+      var _assertString = require$$0$2;
 
       var _assertString2 = _interopRequireDefault(_assertString);
 
       var _isFullWidth = require$$1$4;
 
-      var _isHalfWidth = require$$0$4;
+      var _isHalfWidth = require$$0$8;
 
       function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -15182,7 +15085,7 @@
       module.exports = exports['default'];
       });
 
-      var require$$39 = (isVariableWidth && typeof isVariableWidth === 'object' && 'default' in isVariableWidth ? isVariableWidth['default'] : isVariableWidth);
+      var require$$38 = (isVariableWidth && typeof isVariableWidth === 'object' && 'default' in isVariableWidth ? isVariableWidth['default'] : isVariableWidth);
 
       var isAscii = __commonjs(function (module, exports) {
       'use strict';
@@ -15192,7 +15095,7 @@
       });
       exports.default = isAscii;
 
-      var _assertString = require$$0$13;
+      var _assertString = require$$0$2;
 
       var _assertString2 = _interopRequireDefault(_assertString);
 
@@ -15209,7 +15112,7 @@
       module.exports = exports['default'];
       });
 
-      var require$$42 = (isAscii && typeof isAscii === 'object' && 'default' in isAscii ? isAscii['default'] : isAscii);
+      var require$$41 = (isAscii && typeof isAscii === 'object' && 'default' in isAscii ? isAscii['default'] : isAscii);
 
       var isUppercase = __commonjs(function (module, exports) {
       'use strict';
@@ -15219,7 +15122,7 @@
       });
       exports.default = isUppercase;
 
-      var _assertString = require$$0$13;
+      var _assertString = require$$0$2;
 
       var _assertString2 = _interopRequireDefault(_assertString);
 
@@ -15232,7 +15135,7 @@
       module.exports = exports['default'];
       });
 
-      var require$$43 = (isUppercase && typeof isUppercase === 'object' && 'default' in isUppercase ? isUppercase['default'] : isUppercase);
+      var require$$42 = (isUppercase && typeof isUppercase === 'object' && 'default' in isUppercase ? isUppercase['default'] : isUppercase);
 
       var isLowercase = __commonjs(function (module, exports) {
       'use strict';
@@ -15242,7 +15145,7 @@
       });
       exports.default = isLowercase;
 
-      var _assertString = require$$0$13;
+      var _assertString = require$$0$2;
 
       var _assertString2 = _interopRequireDefault(_assertString);
 
@@ -15255,7 +15158,7 @@
       module.exports = exports['default'];
       });
 
-      var require$$44 = (isLowercase && typeof isLowercase === 'object' && 'default' in isLowercase ? isLowercase['default'] : isLowercase);
+      var require$$43 = (isLowercase && typeof isLowercase === 'object' && 'default' in isLowercase ? isLowercase['default'] : isLowercase);
 
       var isNumeric = __commonjs(function (module, exports) {
       'use strict';
@@ -15265,7 +15168,7 @@
       });
       exports.default = isNumeric;
 
-      var _assertString = require$$0$13;
+      var _assertString = require$$0$2;
 
       var _assertString2 = _interopRequireDefault(_assertString);
 
@@ -15280,7 +15183,7 @@
       module.exports = exports['default'];
       });
 
-      var require$$45 = (isNumeric && typeof isNumeric === 'object' && 'default' in isNumeric ? isNumeric['default'] : isNumeric);
+      var require$$44 = (isNumeric && typeof isNumeric === 'object' && 'default' in isNumeric ? isNumeric['default'] : isNumeric);
 
       var alpha = __commonjs(function (module, exports) {
       'use strict';
@@ -15291,6 +15194,7 @@
       var alpha = exports.alpha = {
         'en-US': /^[A-Z]+$/i,
         'cs-CZ': /^[A-ZÁČĎÉĚÍŇÓŘŠŤÚŮÝŽ]+$/i,
+        'da-DK': /^[A-ZÆØÅ]+$/i,
         'de-DE': /^[A-ZÄÖÜß]+$/i,
         'es-ES': /^[A-ZÁÉÍÑÓÚÜ]+$/i,
         'fr-FR': /^[A-ZÀÂÆÇÉÈÊËÏÎÔŒÙÛÜŸ]+$/i,
@@ -15309,6 +15213,7 @@
       var alphanumeric = exports.alphanumeric = {
         'en-US': /^[0-9A-Z]+$/i,
         'cs-CZ': /^[0-9A-ZÁČĎÉĚÍŇÓŘŠŤÚŮÝŽ]+$/i,
+        'da-DK': /^[0-9A-ZÆØÅ]$/i,
         'de-DE': /^[0-9A-ZÄÖÜß]+$/i,
         'es-ES': /^[0-9A-ZÁÉÍÑÓÚÜ]+$/i,
         'fr-FR': /^[0-9A-ZÀÂÆÇÉÈÊËÏÎÔŒÙÛÜŸ]+$/i,
@@ -15345,7 +15250,7 @@
       }
       });
 
-      var require$$0$12 = (alpha && typeof alpha === 'object' && 'default' in alpha ? alpha['default'] : alpha);
+      var require$$0$9 = (alpha && typeof alpha === 'object' && 'default' in alpha ? alpha['default'] : alpha);
       var alpha = alpha.alpha;
 
       var isAlphanumeric = __commonjs(function (module, exports) {
@@ -15356,11 +15261,11 @@
       });
       exports.default = isAlphanumeric;
 
-      var _assertString = require$$0$13;
+      var _assertString = require$$0$2;
 
       var _assertString2 = _interopRequireDefault(_assertString);
 
-      var _alpha = require$$0$12;
+      var _alpha = require$$0$9;
 
       function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -15376,7 +15281,7 @@
       module.exports = exports['default'];
       });
 
-      var require$$46 = (isAlphanumeric && typeof isAlphanumeric === 'object' && 'default' in isAlphanumeric ? isAlphanumeric['default'] : isAlphanumeric);
+      var require$$45 = (isAlphanumeric && typeof isAlphanumeric === 'object' && 'default' in isAlphanumeric ? isAlphanumeric['default'] : isAlphanumeric);
 
       var isAlpha = __commonjs(function (module, exports) {
       'use strict';
@@ -15386,11 +15291,11 @@
       });
       exports.default = isAlpha;
 
-      var _assertString = require$$0$13;
+      var _assertString = require$$0$2;
 
       var _assertString2 = _interopRequireDefault(_assertString);
 
-      var _alpha = require$$0$12;
+      var _alpha = require$$0$9;
 
       function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -15406,7 +15311,7 @@
       module.exports = exports['default'];
       });
 
-      var require$$47 = (isAlpha && typeof isAlpha === 'object' && 'default' in isAlpha ? isAlpha['default'] : isAlpha);
+      var require$$46 = (isAlpha && typeof isAlpha === 'object' && 'default' in isAlpha ? isAlpha['default'] : isAlpha);
 
       var isBoolean = __commonjs(function (module, exports) {
       'use strict';
@@ -15416,7 +15321,7 @@
       });
       exports.default = isBoolean;
 
-      var _assertString = require$$0$13;
+      var _assertString = require$$0$2;
 
       var _assertString2 = _interopRequireDefault(_assertString);
 
@@ -15429,7 +15334,7 @@
       module.exports = exports['default'];
       });
 
-      var require$$48 = (isBoolean && typeof isBoolean === 'object' && 'default' in isBoolean ? isBoolean['default'] : isBoolean);
+      var require$$47 = (isBoolean && typeof isBoolean === 'object' && 'default' in isBoolean ? isBoolean['default'] : isBoolean);
 
       var isIP = __commonjs(function (module, exports) {
       'use strict';
@@ -15439,7 +15344,7 @@
       });
       exports.default = isIP;
 
-      var _assertString = require$$0$13;
+      var _assertString = require$$0$2;
 
       var _assertString2 = _interopRequireDefault(_assertString);
 
@@ -15525,7 +15430,7 @@
       });
       exports.default = isMACAddress;
 
-      var _assertString = require$$0$13;
+      var _assertString = require$$0$2;
 
       var _assertString2 = _interopRequireDefault(_assertString);
 
@@ -15540,7 +15445,7 @@
       module.exports = exports['default'];
       });
 
-      var require$$51 = (isMACAddress && typeof isMACAddress === 'object' && 'default' in isMACAddress ? isMACAddress['default'] : isMACAddress);
+      var require$$50 = (isMACAddress && typeof isMACAddress === 'object' && 'default' in isMACAddress ? isMACAddress['default'] : isMACAddress);
 
       var isURL = __commonjs(function (module, exports) {
       'use strict';
@@ -15550,11 +15455,11 @@
       });
       exports.default = isURL;
 
-      var _assertString = require$$0$13;
+      var _assertString = require$$0$2;
 
       var _assertString2 = _interopRequireDefault(_assertString);
 
-      var _isFQDN = require$$0$5;
+      var _isFQDN = require$$2;
 
       var _isFQDN2 = _interopRequireDefault(_isFQDN);
 
@@ -15562,7 +15467,7 @@
 
       var _isIP2 = _interopRequireDefault(_isIP);
 
-      var _merge = require$$2$1;
+      var _merge = require$$0$1;
 
       var _merge2 = _interopRequireDefault(_merge);
 
@@ -15597,7 +15502,7 @@
 
       function isURL(url, options) {
         (0, _assertString2.default)(url);
-        if (!url || url.length >= 2083 || /\s/.test(url)) {
+        if (!url || url.length >= 2083 || /[\s<>]/.test(url)) {
           return false;
         }
         if (url.indexOf('mailto:') === 0) {
@@ -15687,7 +15592,7 @@
       module.exports = exports['default'];
       });
 
-      var require$$52 = (isURL && typeof isURL === 'object' && 'default' in isURL ? isURL['default'] : isURL);
+      var require$$51 = (isURL && typeof isURL === 'object' && 'default' in isURL ? isURL['default'] : isURL);
 
       var matches = __commonjs(function (module, exports) {
       'use strict';
@@ -15697,7 +15602,7 @@
       });
       exports.default = matches;
 
-      var _assertString = require$$0$13;
+      var _assertString = require$$0$2;
 
       var _assertString2 = _interopRequireDefault(_assertString);
 
@@ -15713,7 +15618,7 @@
       module.exports = exports['default'];
       });
 
-      var require$$54 = (matches && typeof matches === 'object' && 'default' in matches ? matches['default'] : matches);
+      var require$$53 = (matches && typeof matches === 'object' && 'default' in matches ? matches['default'] : matches);
 
       var contains = __commonjs(function (module, exports) {
       'use strict';
@@ -15723,11 +15628,11 @@
       });
       exports.default = contains;
 
-      var _assertString = require$$0$13;
+      var _assertString = require$$0$2;
 
       var _assertString2 = _interopRequireDefault(_assertString);
 
-      var _toString = require$$0$8;
+      var _toString = require$$0;
 
       var _toString2 = _interopRequireDefault(_toString);
 
@@ -15740,7 +15645,7 @@
       module.exports = exports['default'];
       });
 
-      var require$$55 = (contains && typeof contains === 'object' && 'default' in contains ? contains['default'] : contains);
+      var require$$54 = (contains && typeof contains === 'object' && 'default' in contains ? contains['default'] : contains);
 
       var equals = __commonjs(function (module, exports) {
       'use strict';
@@ -15750,7 +15655,7 @@
       });
       exports.default = equals;
 
-      var _assertString = require$$0$13;
+      var _assertString = require$$0$2;
 
       var _assertString2 = _interopRequireDefault(_assertString);
 
@@ -15763,7 +15668,7 @@
       module.exports = exports['default'];
       });
 
-      var require$$56 = (equals && typeof equals === 'object' && 'default' in equals ? equals['default'] : equals);
+      var require$$55 = (equals && typeof equals === 'object' && 'default' in equals ? equals['default'] : equals);
 
       var toBoolean = __commonjs(function (module, exports) {
       'use strict';
@@ -15773,7 +15678,7 @@
       });
       exports.default = toBoolean;
 
-      var _assertString = require$$0$13;
+      var _assertString = require$$0$2;
 
       var _assertString2 = _interopRequireDefault(_assertString);
 
@@ -15789,7 +15694,7 @@
       module.exports = exports['default'];
       });
 
-      var require$$57 = (toBoolean && typeof toBoolean === 'object' && 'default' in toBoolean ? toBoolean['default'] : toBoolean);
+      var require$$56 = (toBoolean && typeof toBoolean === 'object' && 'default' in toBoolean ? toBoolean['default'] : toBoolean);
 
       var toInt = __commonjs(function (module, exports) {
       'use strict';
@@ -15799,7 +15704,7 @@
       });
       exports.default = toInt;
 
-      var _assertString = require$$0$13;
+      var _assertString = require$$0$2;
 
       var _assertString2 = _interopRequireDefault(_assertString);
 
@@ -15812,52 +15717,52 @@
       module.exports = exports['default'];
       });
 
-      var require$$58 = (toInt && typeof toInt === 'object' && 'default' in toInt ? toInt['default'] : toInt);
+      var require$$57 = (toInt && typeof toInt === 'object' && 'default' in toInt ? toInt['default'] : toInt);
 
-      var index$2 = __commonjs(function (module, exports) {
+      var index = __commonjs(function (module, exports) {
       'use strict';
 
       Object.defineProperty(exports, "__esModule", {
         value: true
       });
 
-      var _toDate = require$$0$7;
+      var _toDate = require$$0$5;
 
       var _toDate2 = _interopRequireDefault(_toDate);
 
-      var _toFloat = require$$0$6;
+      var _toFloat = require$$0$7;
 
       var _toFloat2 = _interopRequireDefault(_toFloat);
 
-      var _toInt = require$$58;
+      var _toInt = require$$57;
 
       var _toInt2 = _interopRequireDefault(_toInt);
 
-      var _toBoolean = require$$57;
+      var _toBoolean = require$$56;
 
       var _toBoolean2 = _interopRequireDefault(_toBoolean);
 
-      var _equals = require$$56;
+      var _equals = require$$55;
 
       var _equals2 = _interopRequireDefault(_equals);
 
-      var _contains = require$$55;
+      var _contains = require$$54;
 
       var _contains2 = _interopRequireDefault(_contains);
 
-      var _matches = require$$54;
+      var _matches = require$$53;
 
       var _matches2 = _interopRequireDefault(_matches);
 
-      var _isEmail = require$$1$6;
+      var _isEmail = require$$1$1;
 
       var _isEmail2 = _interopRequireDefault(_isEmail);
 
-      var _isURL = require$$52;
+      var _isURL = require$$51;
 
       var _isURL2 = _interopRequireDefault(_isURL);
 
-      var _isMACAddress = require$$51;
+      var _isMACAddress = require$$50;
 
       var _isMACAddress2 = _interopRequireDefault(_isMACAddress);
 
@@ -15865,35 +15770,35 @@
 
       var _isIP2 = _interopRequireDefault(_isIP);
 
-      var _isFQDN = require$$0$5;
+      var _isFQDN = require$$2;
 
       var _isFQDN2 = _interopRequireDefault(_isFQDN);
 
-      var _isBoolean = require$$48;
+      var _isBoolean = require$$47;
 
       var _isBoolean2 = _interopRequireDefault(_isBoolean);
 
-      var _isAlpha = require$$47;
+      var _isAlpha = require$$46;
 
       var _isAlpha2 = _interopRequireDefault(_isAlpha);
 
-      var _isAlphanumeric = require$$46;
+      var _isAlphanumeric = require$$45;
 
       var _isAlphanumeric2 = _interopRequireDefault(_isAlphanumeric);
 
-      var _isNumeric = require$$45;
+      var _isNumeric = require$$44;
 
       var _isNumeric2 = _interopRequireDefault(_isNumeric);
 
-      var _isLowercase = require$$44;
+      var _isLowercase = require$$43;
 
       var _isLowercase2 = _interopRequireDefault(_isLowercase);
 
-      var _isUppercase = require$$43;
+      var _isUppercase = require$$42;
 
       var _isUppercase2 = _interopRequireDefault(_isUppercase);
 
-      var _isAscii = require$$42;
+      var _isAscii = require$$41;
 
       var _isAscii2 = _interopRequireDefault(_isAscii);
 
@@ -15901,77 +15806,73 @@
 
       var _isFullWidth2 = _interopRequireDefault(_isFullWidth);
 
-      var _isHalfWidth = require$$0$4;
+      var _isHalfWidth = require$$0$8;
 
       var _isHalfWidth2 = _interopRequireDefault(_isHalfWidth);
 
-      var _isVariableWidth = require$$39;
+      var _isVariableWidth = require$$38;
 
       var _isVariableWidth2 = _interopRequireDefault(_isVariableWidth);
 
-      var _isMultibyte = require$$38;
+      var _isMultibyte = require$$37;
 
       var _isMultibyte2 = _interopRequireDefault(_isMultibyte);
 
-      var _isSurrogatePair = require$$37;
+      var _isSurrogatePair = require$$36;
 
       var _isSurrogatePair2 = _interopRequireDefault(_isSurrogatePair);
 
-      var _isInt = require$$36;
+      var _isInt = require$$35;
 
       var _isInt2 = _interopRequireDefault(_isInt);
 
-      var _isFloat = require$$35;
+      var _isFloat = require$$34;
 
       var _isFloat2 = _interopRequireDefault(_isFloat);
 
-      var _isDecimal = require$$34;
+      var _isDecimal = require$$33;
 
       var _isDecimal2 = _interopRequireDefault(_isDecimal);
 
-      var _isHexadecimal = require$$0$3;
+      var _isHexadecimal = require$$0$6;
 
       var _isHexadecimal2 = _interopRequireDefault(_isHexadecimal);
 
-      var _isDivisibleBy = require$$32;
+      var _isDivisibleBy = require$$31;
 
       var _isDivisibleBy2 = _interopRequireDefault(_isDivisibleBy);
 
-      var _isHexColor = require$$31;
+      var _isHexColor = require$$30;
 
       var _isHexColor2 = _interopRequireDefault(_isHexColor);
 
-      var _isMD = require$$30;
+      var _isMD = require$$29;
 
       var _isMD2 = _interopRequireDefault(_isMD);
 
-      var _isJSON = require$$29;
+      var _isJSON = require$$28;
 
       var _isJSON2 = _interopRequireDefault(_isJSON);
 
-      var _isEmpty = require$$28;
+      var _isEmpty = require$$27;
 
       var _isEmpty2 = _interopRequireDefault(_isEmpty);
 
-      var _isLength = require$$27;
+      var _isLength = require$$26;
 
       var _isLength2 = _interopRequireDefault(_isLength);
 
-      var _isByteLength = require$$1$3;
+      var _isByteLength = require$$1$2;
 
       var _isByteLength2 = _interopRequireDefault(_isByteLength);
 
-      var _isUUID = require$$25;
+      var _isUUID = require$$24;
 
       var _isUUID2 = _interopRequireDefault(_isUUID);
 
-      var _isMongoId = require$$24;
+      var _isMongoId = require$$23;
 
       var _isMongoId2 = _interopRequireDefault(_isMongoId);
-
-      var _isDate = require$$23;
-
-      var _isDate2 = _interopRequireDefault(_isDate);
 
       var _isAfter = require$$22;
 
@@ -16009,7 +15910,7 @@
 
       var _isCurrency2 = _interopRequireDefault(_isCurrency);
 
-      var _isISO = require$$0$2;
+      var _isISO = require$$13;
 
       var _isISO2 = _interopRequireDefault(_isISO);
 
@@ -16021,11 +15922,11 @@
 
       var _isDataURI2 = _interopRequireDefault(_isDataURI);
 
-      var _ltrim = require$$0$1;
+      var _ltrim = require$$0$4;
 
       var _ltrim2 = _interopRequireDefault(_ltrim);
 
-      var _rtrim = require$$1$2;
+      var _rtrim = require$$1$3;
 
       var _rtrim2 = _interopRequireDefault(_rtrim);
 
@@ -16049,55 +15950,85 @@
 
       var _whitelist2 = _interopRequireDefault(_whitelist);
 
-      var _blacklist = require$$0;
+      var _blacklist = require$$0$3;
 
       var _blacklist2 = _interopRequireDefault(_blacklist);
 
-      var _isWhitelisted = require$$2;
+      var _isWhitelisted = require$$2$1;
 
       var _isWhitelisted2 = _interopRequireDefault(_isWhitelisted);
 
-      var _normalizeEmail = require$$1$1;
+      var _normalizeEmail = require$$1;
 
       var _normalizeEmail2 = _interopRequireDefault(_normalizeEmail);
 
-      var _toString = require$$0$8;
+      var _toString = require$$0;
 
       var _toString2 = _interopRequireDefault(_toString);
 
       function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-      var version = '6.1.0';
+      var version = '7.0.0';
 
       var validator = {
         version: version,
         toDate: _toDate2.default,
-        toFloat: _toFloat2.default, toInt: _toInt2.default,
+        toFloat: _toFloat2.default,
+        toInt: _toInt2.default,
         toBoolean: _toBoolean2.default,
-        equals: _equals2.default, contains: _contains2.default, matches: _matches2.default,
-        isEmail: _isEmail2.default, isURL: _isURL2.default, isMACAddress: _isMACAddress2.default, isIP: _isIP2.default, isFQDN: _isFQDN2.default,
+        equals: _equals2.default,
+        contains: _contains2.default,
+        matches: _matches2.default,
+        isEmail: _isEmail2.default,
+        isURL: _isURL2.default,
+        isMACAddress: _isMACAddress2.default,
+        isIP: _isIP2.default,
+        isFQDN: _isFQDN2.default,
         isBoolean: _isBoolean2.default,
-        isAlpha: _isAlpha2.default, isAlphanumeric: _isAlphanumeric2.default, isNumeric: _isNumeric2.default, isLowercase: _isLowercase2.default, isUppercase: _isUppercase2.default,
-        isAscii: _isAscii2.default, isFullWidth: _isFullWidth2.default, isHalfWidth: _isHalfWidth2.default, isVariableWidth: _isVariableWidth2.default,
-        isMultibyte: _isMultibyte2.default, isSurrogatePair: _isSurrogatePair2.default,
-        isInt: _isInt2.default, isFloat: _isFloat2.default, isDecimal: _isDecimal2.default, isHexadecimal: _isHexadecimal2.default, isDivisibleBy: _isDivisibleBy2.default,
+        isAlpha: _isAlpha2.default,
+        isAlphanumeric: _isAlphanumeric2.default,
+        isNumeric: _isNumeric2.default,
+        isLowercase: _isLowercase2.default,
+        isUppercase: _isUppercase2.default,
+        isAscii: _isAscii2.default,
+        isFullWidth: _isFullWidth2.default,
+        isHalfWidth: _isHalfWidth2.default,
+        isVariableWidth: _isVariableWidth2.default,
+        isMultibyte: _isMultibyte2.default,
+        isSurrogatePair: _isSurrogatePair2.default,
+        isInt: _isInt2.default,
+        isFloat: _isFloat2.default,
+        isDecimal: _isDecimal2.default,
+        isHexadecimal: _isHexadecimal2.default,
+        isDivisibleBy: _isDivisibleBy2.default,
         isHexColor: _isHexColor2.default,
         isMD5: _isMD2.default,
         isJSON: _isJSON2.default,
         isEmpty: _isEmpty2.default,
-        isLength: _isLength2.default, isByteLength: _isByteLength2.default,
-        isUUID: _isUUID2.default, isMongoId: _isMongoId2.default,
-        isDate: _isDate2.default, isAfter: _isAfter2.default, isBefore: _isBefore2.default,
+        isLength: _isLength2.default,
+        isByteLength: _isByteLength2.default,
+        isUUID: _isUUID2.default,
+        isMongoId: _isMongoId2.default,
+        isAfter: _isAfter2.default,
+        isBefore: _isBefore2.default,
         isIn: _isIn2.default,
         isCreditCard: _isCreditCard2.default,
-        isISIN: _isISIN2.default, isISBN: _isISBN2.default, isISSN: _isISSN2.default,
+        isISIN: _isISIN2.default,
+        isISBN: _isISBN2.default,
+        isISSN: _isISSN2.default,
         isMobilePhone: _isMobilePhone2.default,
         isCurrency: _isCurrency2.default,
         isISO8601: _isISO2.default,
-        isBase64: _isBase2.default, isDataURI: _isDataURI2.default,
-        ltrim: _ltrim2.default, rtrim: _rtrim2.default, trim: _trim2.default,
-        escape: _escape2.default, unescape: _unescape2.default, stripLow: _stripLow2.default,
-        whitelist: _whitelist2.default, blacklist: _blacklist2.default,
+        isBase64: _isBase2.default,
+        isDataURI: _isDataURI2.default,
+        ltrim: _ltrim2.default,
+        rtrim: _rtrim2.default,
+        trim: _trim2.default,
+        escape: _escape2.default,
+        unescape: _unescape2.default,
+        stripLow: _stripLow2.default,
+        whitelist: _whitelist2.default,
+        blacklist: _blacklist2.default,
         isWhitelisted: _isWhitelisted2.default,
         normalizeEmail: _normalizeEmail2.default,
         toString: _toString2.default
@@ -16107,7 +16038,7 @@
       module.exports = exports['default'];
       });
 
-      var validator = (index$2 && typeof index$2 === 'object' && 'default' in index$2 ? index$2['default'] : index$2);
+      var validator = (index && typeof index === 'object' && 'default' in index ? index['default'] : index);
 
       var Message = Backbone.Model.extend({
           url: '/messages',
@@ -16155,7 +16086,7 @@
           }
       });
 
-      require$$1.extend(Message, Backbone.Events);
+      _.extend(Message, Backbone.Events);
 
       /**
       * Scroll to element.
@@ -33724,11 +33655,18 @@
       };
       });
 
-      var require$$0$15 = (getAttributes && typeof getAttributes === 'object' && 'default' in getAttributes ? getAttributes['default'] : getAttributes);
+      var require$$0$11 = (getAttributes && typeof getAttributes === 'object' && 'default' in getAttributes ? getAttributes['default'] : getAttributes);
 
       var index$3 = __commonjs(function (module) {
+      /*
+      object-assign
+      (c) Sindre Sorhus
+      @license MIT
+      */
+
       'use strict';
       /* eslint-disable no-unused-vars */
+      var getOwnPropertySymbols = Object.getOwnPropertySymbols;
       var hasOwnProperty = Object.prototype.hasOwnProperty;
       var propIsEnumerable = Object.prototype.propertyIsEnumerable;
 
@@ -33749,7 +33687,7 @@
       		// Detect buggy property enumeration order in older V8 versions.
 
       		// https://bugs.chromium.org/p/v8/issues/detail?id=4118
-      		var test1 = new String('abc');  // eslint-disable-line
+      		var test1 = new String('abc');  // eslint-disable-line no-new-wrappers
       		test1[5] = 'de';
       		if (Object.getOwnPropertyNames(test1)[0] === '5') {
       			return false;
@@ -33778,7 +33716,7 @@
       		}
 
       		return true;
-      	} catch (e) {
+      	} catch (err) {
       		// We don't expect any of the above to throw, but better to be safe.
       		return false;
       	}
@@ -33800,8 +33738,8 @@
       			}
       		}
 
-      		if (Object.getOwnPropertySymbols) {
-      			symbols = Object.getOwnPropertySymbols(from);
+      		if (getOwnPropertySymbols) {
+      			symbols = getOwnPropertySymbols(from);
       			for (var i = 0; i < symbols.length; i++) {
       				if (propIsEnumerable.call(from, symbols[i])) {
       					to[symbols[i]] = from[symbols[i]];
@@ -33814,7 +33752,7 @@
       };
       });
 
-      var require$$1$8 = (index$3 && typeof index$3 === 'object' && 'default' in index$3 ? index$3['default'] : index$3);
+      var require$$4$1 = (index$3 && typeof index$3 === 'object' && 'default' in index$3 ? index$3['default'] : index$3);
 
       var utilities = __commonjs(function (module) {
       /**
@@ -33834,8 +33772,8 @@
        */
 
 
-      var assign = require$$1$8;
-      var getAttributes = require$$0$15;
+      var assign = require$$4$1;
+      var getAttributes = require$$0$11;
 
 
       var utilities = {
@@ -33932,13 +33870,14 @@
          */
         withTimeout: function(callback, wait) {
           var called = false;
-          setTimeout(callback, wait || 2000);
-          return function() {
+          var fn = function() {
             if (!called) {
               called = true;
               callback();
             }
           };
+          setTimeout(fn, wait || 2000);
+          return fn;
         },
 
 
@@ -33999,7 +33938,7 @@
       module.exports = utilities;
       });
 
-      var require$$0$9 = (utilities && typeof utilities === 'object' && 'default' in utilities ? utilities['default'] : utilities);
+      var require$$0$10 = (utilities && typeof utilities === 'object' && 'default' in utilities ? utilities['default'] : utilities);
 
       var constants = __commonjs(function (module) {
       /**
@@ -34030,7 +33969,7 @@
       };
       });
 
-      var require$$0$11 = (constants && typeof constants === 'object' && 'default' in constants ? constants['default'] : constants);
+      var require$$2$2 = (constants && typeof constants === 'object' && 'default' in constants ? constants['default'] : constants);
 
       var provide = __commonjs(function (module) {
       /**
@@ -34050,8 +33989,8 @@
        */
 
 
-      var constants = require$$0$11;
-      var utilities = require$$0$9;
+      var constants = require$$2$2;
+      var utilities = require$$0$10;
 
 
       // Adds the dev ID to the list of dev IDs if any plugin is used.
@@ -34079,7 +34018,7 @@
       };
       });
 
-      var require$$1$7 = (provide && typeof provide === 'object' && 'default' in provide ? provide['default'] : provide);
+      var require$$1$6 = (provide && typeof provide === 'object' && 'default' in provide ? provide['default'] : provide);
 
       var autotrack = __commonjs(function (module) {
       /**
@@ -34103,7 +34042,7 @@
 
 
       // Imports dependencies.
-      var provide = require$$1$7;
+      var provide = require$$1$6;
 
 
       /**
@@ -34139,7 +34078,7 @@
        */
 
 
-      var constants = require$$0$11;
+      var constants = require$$2$2;
 
 
       var plugins = {
@@ -34242,7 +34181,7 @@
       };
       });
 
-      var require$$0$10 = (usage && typeof usage === 'object' && 'default' in usage ? usage['default'] : usage);
+      var require$$0$12 = (usage && typeof usage === 'object' && 'default' in usage ? usage['default'] : usage);
 
       var urlChangeTracker = __commonjs(function (module) {
       /**
@@ -34262,11 +34201,11 @@
        */
 
 
-      var assign = require$$1$8;
-      var provide = require$$1$7;
-      var usage = require$$0$10;
-      var createFieldsObj = require$$0$9.createFieldsObj;
-      var isObject = require$$0$9.isObject;
+      var assign = require$$4$1;
+      var provide = require$$1$6;
+      var usage = require$$0$12;
+      var createFieldsObj = require$$0$10.createFieldsObj;
+      var isObject = require$$0$10.isObject;
 
 
       /**
@@ -34425,10 +34364,10 @@
       /* global FB, twttr */
 
 
-      var assign = require$$1$8;
-      var provide = require$$1$7;
-      var usage = require$$0$10;
-      var createFieldsObj = require$$0$9.createFieldsObj;
+      var assign = require$$4$1;
+      var provide = require$$1$6;
+      var usage = require$$0$12;
+      var createFieldsObj = require$$0$10.createFieldsObj;
 
 
       /**
@@ -34644,11 +34583,11 @@
        */
 
 
-      var assign = require$$1$8;
-      var provide = require$$1$7;
-      var usage = require$$0$10;
-      var createFieldsObj = require$$0$9.createFieldsObj;
-      var isObject = require$$0$9.isObject;
+      var assign = require$$4$1;
+      var provide = require$$1$6;
+      var usage = require$$0$12;
+      var createFieldsObj = require$$0$10.createFieldsObj;
+      var isObject = require$$0$10.isObject;
 
 
       var DEFAULT_SESSION_TIMEOUT = 30; // 30 minutes.
@@ -34964,7 +34903,7 @@
       };
       });
 
-      var require$$1$10 = (matches$1 && typeof matches$1 === 'object' && 'default' in matches$1 ? matches$1['default'] : matches$1);
+      var require$$1$7 = (matches$1 && typeof matches$1 === 'object' && 'default' in matches$1 ? matches$1['default'] : matches$1);
 
       var parents = __commonjs(function (module) {
       /**
@@ -34982,11 +34921,11 @@
       };
       });
 
-      var require$$0$16 = (parents && typeof parents === 'object' && 'default' in parents ? parents['default'] : parents);
+      var require$$0$13 = (parents && typeof parents === 'object' && 'default' in parents ? parents['default'] : parents);
 
       var closest = __commonjs(function (module) {
-      var matches = require$$1$10;
-      var parents = require$$0$16;
+      var matches = require$$1$7;
+      var parents = require$$0$13;
 
       /**
        * Gets the closest parent element that matches the passed selector.
@@ -35008,11 +34947,11 @@
       };
       });
 
-      var require$$1$9 = (closest && typeof closest === 'object' && 'default' in closest ? closest['default'] : closest);
+      var require$$1$8 = (closest && typeof closest === 'object' && 'default' in closest ? closest['default'] : closest);
 
       var delegate = __commonjs(function (module) {
-      var closest = require$$1$9;
-      var matches = require$$1$10;
+      var closest = require$$1$8;
+      var matches = require$$1$7;
 
       /**
        * Delegates the handling of events for an element matching a selector to an
@@ -35084,13 +35023,13 @@
        */
 
 
-      var assign = require$$1$8;
+      var assign = require$$4$1;
       var delegate = require$$3$1;
       var parseUrl = require$$3;
-      var provide = require$$1$7;
-      var usage = require$$0$10;
-      var createFieldsObj = require$$0$9.createFieldsObj;
-      var getAttributeFields = require$$0$9.getAttributeFields;
+      var provide = require$$1$6;
+      var usage = require$$0$12;
+      var createFieldsObj = require$$0$10.createFieldsObj;
+      var getAttributeFields = require$$0$10.getAttributeFields;
 
 
       /**
@@ -35108,7 +35047,7 @@
 
         this.opts = assign({
           events: ['click'],
-          linkSelector: 'a',
+          linkSelector: 'a, area',
           shouldTrackOutboundLink: this.shouldTrackOutboundLink,
           fieldsObj: {},
           attributePrefix: 'ga-',
@@ -35146,11 +35085,14 @@
             link.target = '_blank';
           }
 
+          var href = link.getAttribute('href') || link.getAttribute('xlink:href');
+          var url = parseUrl(href);
+
           var defaultFields = {
             transport: 'beacon',
             eventCategory: 'Outbound Link',
             eventAction: event.type,
-            eventLabel: link.href
+            eventLabel: url.href
           };
 
           var userFields = assign({}, this.opts.fieldsObj,
@@ -35173,7 +35115,8 @@
       OutboundLinkTracker.prototype.shouldTrackOutboundLink =
           function(link, parseUrl) {
 
-        var url = parseUrl(link.href);
+        var href = link.getAttribute('href') || link.getAttribute('xlink:href');
+        var url = parseUrl(href);
         return url.hostname != location.hostname &&
             url.protocol.slice(0, 4) == 'http';
       };
@@ -35210,14 +35153,14 @@
        */
 
 
-      var assign = require$$1$8;
+      var assign = require$$4$1;
       var delegate = require$$3$1;
       var parseUrl = require$$3;
-      var provide = require$$1$7;
-      var usage = require$$0$10;
-      var createFieldsObj = require$$0$9.createFieldsObj;
-      var getAttributeFields = require$$0$9.getAttributeFields;
-      var withTimeout = require$$0$9.withTimeout;
+      var provide = require$$1$6;
+      var usage = require$$0$12;
+      var createFieldsObj = require$$0$10.createFieldsObj;
+      var getAttributeFields = require$$0$10.getAttributeFields;
+      var withTimeout = require$$0$10.withTimeout;
 
 
       /**
@@ -35315,28 +35258,13 @@
       provide('outboundFormTracker', OutboundFormTracker);
       });
 
-      var index$5 = __commonjs(function (module) {
-      module.exports = Date.now || now
-
-      function now() {
-          return new Date().getTime()
-      }
-      });
-
-      var require$$0$14 = (index$5 && typeof index$5 === 'object' && 'default' in index$5 ? index$5['default'] : index$5);
-
       var index$4 = __commonjs(function (module) {
-      /**
-       * Module dependencies.
-       */
-
-      var now = require$$0$14;
-
       /**
        * Returns a function, that, as long as it continues to be invoked, will not
        * be triggered. The function will be called after it stops being called for
        * N milliseconds. If `immediate` is passed, trigger the function on the
-       * leading edge, instead of the trailing.
+       * leading edge, instead of the trailing. The function also has a property 'clear' 
+       * that is a function which will clear the timer to prevent previously scheduled executions. 
        *
        * @source underscore.js
        * @see http://unscriptable.com/2009/03/20/debouncing-javascript-methods/
@@ -35351,23 +35279,23 @@
         if (null == wait) { wait = 100; }
 
         function later() {
-          var last = now() - timestamp;
+          var last = Date.now() - timestamp;
 
-          if (last < wait && last > 0) {
+          if (last < wait && last >= 0) {
             timeout = setTimeout(later, wait - last);
           } else {
             timeout = null;
             if (!immediate) {
               result = func.apply(context, args);
-              if (!timeout) { context = args = null; }
+              context = args = null;
             }
           }
         };
 
-        return function debounced() {
+        var debounced = function(){
           context = this;
           args = arguments;
-          timestamp = now();
+          timestamp = Date.now();
           var callNow = immediate && !timeout;
           if (!timeout) { timeout = setTimeout(later, wait); }
           if (callNow) {
@@ -35377,10 +35305,19 @@
 
           return result;
         };
+
+        debounced.clear = function() {
+          if (timeout) {
+            clearTimeout(timeout);
+            timeout = null;
+          }
+        };
+
+        return debounced;
       };
       });
 
-      var require$$4$1 = (index$4 && typeof index$4 === 'object' && 'default' in index$4 ? index$4['default'] : index$4);
+      var require$$4$2 = (index$4 && typeof index$4 === 'object' && 'default' in index$4 ? index$4['default'] : index$4);
 
       var mediaQueryTracker = __commonjs(function (module) {
       /**
@@ -35400,14 +35337,14 @@
        */
 
 
-      var assign = require$$1$8;
-      var debounce = require$$4$1;
-      var constants = require$$0$11;
-      var provide = require$$1$7;
-      var usage = require$$0$10;
-      var createFieldsObj = require$$0$9.createFieldsObj;
-      var isObject = require$$0$9.isObject;
-      var toArray = require$$0$9.toArray;
+      var assign = require$$4$1;
+      var debounce = require$$4$2;
+      var constants = require$$2$2;
+      var provide = require$$1$6;
+      var usage = require$$0$12;
+      var createFieldsObj = require$$0$10.createFieldsObj;
+      var isObject = require$$0$10.isObject;
+      var toArray = require$$0$10.toArray;
 
 
       /**
@@ -35585,12 +35522,12 @@
        */
 
 
-      var assign = require$$1$8;
-      var provide = require$$1$7;
-      var usage = require$$0$10;
-      var createFieldsObj = require$$0$9.createFieldsObj;
-      var domReady = require$$0$9.domReady;
-      var getAttributeFields = require$$0$9.getAttributeFields;
+      var assign = require$$4$1;
+      var provide = require$$1$6;
+      var usage = require$$0$12;
+      var createFieldsObj = require$$0$10.createFieldsObj;
+      var domReady = require$$0$10.domReady;
+      var getAttributeFields = require$$0$10.getAttributeFields;
 
 
       /**
@@ -35607,7 +35544,7 @@
         if (!(window.IntersectionObserver && window.MutationObserver)) { return; }
 
         this.opts = assign({
-          elements: [],
+          elements: null,
           rootMargin: '0px',
           fieldsObj: {},
           attributePrefix: 'ga-',
@@ -35618,112 +35555,164 @@
 
         // Binds methods.
         this.handleDomMutations = this.handleDomMutations.bind(this);
-        this.walkNodeTree = this.walkNodeTree.bind(this);
         this.handleIntersectionChanges = this.handleIntersectionChanges.bind(this);
-        this.startObserving = this.startObserving.bind(this);
-        this.observeElement = this.observeElement.bind(this);
+        this.handleDomElementAdded = this.handleDomElementAdded.bind(this);
         this.handleDomElementRemoved = this.handleDomElementRemoved.bind(this);
-
-        var data = this.deriveDataFromConfigOptions();
 
         // The primary list of elements to observe. Each item contains the
         // element ID, threshold, and whether it's currently in-view.
-        this.items = data.items;
-
-        // A hash map of elements contained in the items array.
-        this.elementMap = data.elementMap;
-
-        // A sorted list of threshold values contained in the items array.
-        this.threshold = data.threshold;
-
-        this.intersectionObserver = this.initIntersectionObserver();
-        this.mutationObserver = this.initMutationObserver();
-
-        // Once the DOM is ready, start observing for changes.
-        domReady(this.startObserving);
-      }
-
-
-      /**
-       * Loops through each element in the `elements` configuration option and
-       * creates a map of element IDs currently being observed, a list of "items"
-       * (which contains each element's `threshold` and `trackFirstImpressionOnly`
-       * property), and a list of `threshold` values to pass to the
-       * `IntersectionObserver` instance.
-       * @return {Object} An object with the properties `items`, `elementMap`
-       *     and `threshold`.
-       */
-      ImpressionTracker.prototype.deriveDataFromConfigOptions = function() {
-        var items = [];
-        var threshold = [];
+        this.items = [];
 
         // A map of element IDs in the `items` array to DOM elements in the document.
         // The presence of a key indicates that the element ID is in the `items`
         // array, and the presence of an element value indicates that the element
         // is in the DOM.
-        var elementMap = {};
+        this.elementMap = {};
 
-        this.opts.elements.forEach(function(item) {
-          // The item can be just a string if it's OK with all the defaults.
-          if (typeof item == 'string') { item = {id: item}; }
+        // A map of threshold values. Each threshold is mapped to an
+        // IntersectionObserver instance specific to that threshold.
+        this.thresholdMap = {};
 
-          items.push(item = assign({
-            threshold: 0,
-            trackFirstImpressionOnly: true
-          }, item));
-
-          elementMap[item.id] = null;
-          threshold.push(item.threshold);
-        });
-
-        return {
-          items: items,
-          elementMap: elementMap,
-          threshold: threshold
-        };
-      };
+        // Once the DOM is ready, start observing for changes.
+        domReady(function() {
+          this.observeElements(this.opts.elements);
+        }.bind(this));
+      }
 
 
-      /**
-       * Initializes a new `MutationObsever` instance and registers the callback.
-       * @return {MutationObserver} The new MutationObserver instance.
-       */
-      ImpressionTracker.prototype.initMutationObserver = function() {
-        return new MutationObserver(this.handleDomMutations);
-      };
+      ImpressionTracker.prototype.observeElements = function(elements) {
+        var data = this.deriveDataFromElements(elements);
 
+        // Merge the new data with the data already on the plugin instance.
+        this.items = this.items.concat(data.items);
+        this.elementMap = assign({}, data.elementMap, this.elementMap);
+        this.thresholdMap = assign({}, data.thresholdMap, this.thresholdMap);
 
-      /**
-       * Initializes a new `IntersectionObsever` instance with the appropriate
-       * options and registers the callback.
-       * @return {IntersectionObserver} The newly created instance.
-       */
-      ImpressionTracker.prototype.initIntersectionObserver = function() {
-        return new IntersectionObserver(this.handleIntersectionChanges, {
-          rootMargin: this.opts.rootMargin,
-          threshold: this.threshold
-        });
-      };
+        // Observe each new item.
+        data.items.forEach(function(item) {
+          var observer = this.thresholdMap[item.threshold] =
+              (this.thresholdMap[item.threshold] || new IntersectionObserver(
+                  this.handleIntersectionChanges, {
+                    rootMargin: this.opts.rootMargin,
+                    threshold: [+item.threshold]
+                  }));
 
+          var element = this.elementMap[item.id] ||
+              (this.elementMap[item.id] = document.getElementById(item.id));
 
-      /**
-       * Starts observing each eleemnt to intersections as well as the entire DOM
-       * for node changes.
-       */
-      ImpressionTracker.prototype.startObserving = function() {
-        // Start observing elements for intersections.
-        Object.keys(this.elementMap).forEach(this.observeElement);
+          if (element) {
+            observer.observe(element);
+          }
+        }.bind(this));
 
-        // Start observing the DOM for added and removed elements.
-        this.mutationObserver.observe(document.body, {
-          childList: true,
-          subtree: true
-        });
+        if (!this.mutationObserver) {
+          this.mutationObserver = new MutationObserver(this.handleDomMutations);
+          this.mutationObserver.observe(document.body, {
+            childList: true,
+            subtree: true
+          });
+        }
 
         // TODO(philipwalton): Remove temporary hack to force a new frame
         // immediately after adding observers.
         // https://bugs.chromium.org/p/chromium/issues/detail?id=612323
         requestAnimationFrame(function() {});
+      };
+
+
+      ImpressionTracker.prototype.unobserveElements = function(elements) {
+        var itemsToKeep = [];
+        var itemsToRemove = [];
+
+        this.items.forEach(function(item) {
+          var itemInItems = elements.some(function(element) {
+            var itemToRemove = getItemFromElement(element);
+            return itemToRemove.id === item.id &&
+                itemToRemove.threshold === item.threshold &&
+                itemToRemove.trackFirstImpressionOnly ===
+                    item.trackFirstImpressionOnly;
+          });
+          if (itemInItems) {
+            itemsToRemove.push(item);
+          } else {
+            itemsToKeep.push(item);
+          }
+        });
+
+        // If there are no items to keep, exit early by running the
+        // `unobserveAllElements` logic.
+        if (!itemsToKeep.length) {
+          return this.unobserveAllElements();
+        }
+
+        var dataToKeep = this.deriveDataFromElements(itemsToKeep);
+        var dataToRemove = this.deriveDataFromElements(itemsToRemove);
+
+        this.items = dataToKeep.items;
+        this.elementMap = dataToKeep.elementMap;
+        this.thresholdMap = dataToKeep.thresholdMap;
+
+        // Unobserve removed elements.
+        itemsToRemove.forEach(function(item) {
+          if (!dataToKeep.elementMap[item.id]) {
+            var observer = dataToRemove.thresholdMap[item.threshold];
+            var element = dataToRemove.elementMap[item.id];
+
+            if (element) {
+              observer.unobserve(element);
+            }
+
+            // Disconnect unneeded threshold observers.
+            if (!dataToKeep.thresholdMap[item.threshold]) {
+              dataToRemove.thresholdMap[item.threshold].disconnect();
+            }
+          }
+        });
+      };
+
+
+      ImpressionTracker.prototype.unobserveAllElements = function() {
+        Object.keys(this.thresholdMap).forEach(function(key) {
+          this.thresholdMap[key].disconnect();
+        }.bind(this));
+
+        this.mutationObserver.disconnect();
+        this.mutationObserver = null;
+
+        this.items = [];
+        this.elementMap = {};
+        this.thresholdMap = {};
+      };
+
+
+      /**
+       * Loops through each of the passed elements and creates a map of element IDs,
+       * threshold values, and a list of "items" (which contains each element's
+       * `threshold` and `trackFirstImpressionOnly` property).
+       * @param {Array} elements A list of elements to derive item data from.
+       * @return {Object} An object with the properties `items`, `elementMap`
+       *     and `threshold`.
+       */
+      ImpressionTracker.prototype.deriveDataFromElements = function(elements) {
+        var items = [];
+        var thresholdMap = {};
+        var elementMap = {};
+
+        if (elements.length) {
+          elements.forEach(function(element) {
+            var item = getItemFromElement(element);
+
+            items.push(item);
+            elementMap[item.id] = this.elementMap[item.id] || null;
+            thresholdMap[item.threshold] = this.thresholdMap[item.threshold] || null;
+          }.bind(this));
+        }
+
+        return {
+          items: items,
+          elementMap: elementMap,
+          thresholdMap: thresholdMap
+        };
       };
 
 
@@ -35755,7 +35744,7 @@
           }
           // Handles added elements.
           for (var j = 0, addedEl; addedEl = mutation.addedNodes[j]; j++) {
-            this$1.walkNodeTree(addedEl, this$1.observeElement);
+            this$1.walkNodeTree(addedEl, this$1.handleDomElementAdded);
           }
         }
       };
@@ -35787,6 +35776,7 @@
       ImpressionTracker.prototype.handleIntersectionChanges = function(records) {
         var this$1 = this;
 
+        var itemsToRemove = [];
         for (var i = 0, record; record = records[i]; i++) {
           for (var j = 0, item; item = this.items[j]; j++) {
             if (record.target.id !== item.id) { continue; }
@@ -35795,16 +35785,14 @@
               this$1.handleImpression(item.id);
 
               if (item.trackFirstImpressionOnly) {
-                this$1.items.splice(j, 1);
-                j--;
-                this$1.possiblyUnobserveElement(item.id);
+                itemsToRemove.push(item);
               }
             }
           }
         }
-
-        // If all items have been removed, remove the plugin.
-        if (this.items.length === 0) { this.remove(); }
+        if (itemsToRemove.length) {
+          this.unobserveElements(itemsToRemove);
+        }
       };
 
 
@@ -35831,16 +35819,16 @@
 
 
       /**
-       * Inspects the `items` array after an item was removed. If the removed
-       * item's element ID is not found in any other item, the element stops being
-       * observed for intersection changes and is removed from `elementMap`.
-       * @param {string} id The element ID to check for possible unobservation.
+       * Handles an element in the items array being added to the DOM.
+       * @param {string} id The ID of the element that was added.
        */
-      ImpressionTracker.prototype.possiblyUnobserveElement = function(id) {
-        if (!this.itemsIncludesId(id)) {
-          this.intersectionObserver.unobserve(this.elementMap[id]);
-          delete this.elementMap[id];
-        }
+      ImpressionTracker.prototype.handleDomElementAdded = function(id) {
+        var element = this.elementMap[id] = document.getElementById(id);
+        this.items.forEach(function(item) {
+          if (id == item.id) {
+            this.thresholdMap[item.threshold].observe(element);
+          }
+        }.bind(this));
       };
 
 
@@ -35850,20 +35838,14 @@
        * @param {string} id The ID of the element that was removed.
        */
       ImpressionTracker.prototype.handleDomElementRemoved = function(id) {
-        this.intersectionObserver.unobserve(this.elementMap[id]);
+        var element = this.elementMap[id];
+        this.items.forEach(function(item) {
+          if (id == item.id) {
+            this.thresholdMap[item.threshold].unobserve(element);
+          }
+        }.bind(this));
+
         this.elementMap[id] = null;
-      };
-
-
-      /**
-       * Scans the `items` array for the presense of an item with the passed ID.
-       * @param {string} id The ID of the element to search for.
-       * @return {boolean} True if the element ID was found in one of the items.
-       */
-      ImpressionTracker.prototype.itemsIncludesId = function(id) {
-        return this.items.some(function(item) {
-          return id == item.id;
-        });
       };
 
 
@@ -35871,8 +35853,7 @@
        * Removes all listeners and observers.
        */
       ImpressionTracker.prototype.remove = function() {
-        this.mutationObserver.disconnect();
-        this.intersectionObserver.disconnect();
+        this.unobserveAllElements();
       };
 
 
@@ -35895,6 +35876,19 @@
           return record.intersectionRatio >= threshold;
         }
       }
+
+      /**
+       * Creates an item by merging the passed element with the item defaults.
+       * If the passed element is just a string, that string is treated as
+       * the item ID.
+       * @param {Object|string} element The element to convert to an item.
+       * @return {Object} The item object.
+       */
+      function getItemFromElement(element) {
+        return assign({threshold: 0, trackFirstImpressionOnly: true},
+            typeof element == 'string' ? {id: element} : element);
+
+      }
       });
 
       var eventTracker = __commonjs(function (module) {
@@ -35915,12 +35909,12 @@
        */
 
 
-      var assign = require$$1$8;
+      var assign = require$$4$1;
       var delegate = require$$3$1;
-      var provide = require$$1$7;
-      var usage = require$$0$10;
-      var createFieldsObj = require$$0$9.createFieldsObj;
-      var getAttributeFields = require$$0$9.getAttributeFields;
+      var provide = require$$1$6;
+      var usage = require$$0$12;
+      var createFieldsObj = require$$0$10.createFieldsObj;
+      var getAttributeFields = require$$0$10.getAttributeFields;
 
 
       /**
@@ -36012,11 +36006,11 @@
        */
 
 
-      var assign = require$$1$8;
+      var assign = require$$4$1;
       var parseUrl = require$$3;
-      var constants = require$$0$11;
-      var provide = require$$1$7;
-      var usage = require$$0$10;
+      var constants = require$$2$2;
+      var provide = require$$1$6;
+      var usage = require$$0$12;
 
 
       /**
@@ -36118,7 +36112,7 @@
       provide('cleanUrlTracker', CleanUrlTracker);
       });
 
-      var index = __commonjs(function (module) {
+      var index$1 = __commonjs(function (module) {
       /**
        * Copyright 2016 Google Inc. All Rights Reserved.
        *

@@ -1,5 +1,5 @@
 build:
-	@gobble build public/assets -f
+	@gobble build public/assets -f -e 'production'
 
 clean:
 	rm -rf build

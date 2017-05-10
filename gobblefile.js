@@ -1,7 +1,25 @@
 var gobble = require('gobble'),
     commonjs = require('rollup-plugin-commonjs'),
     npm = require('rollup-plugin-npm'),
-    babel = require('rollup-plugin-babel');
+    // babel = require('rollup-plugin-babel'),
+    buble = require('rollup-plugin-buble'),
+    uglify = require('rollup-plugin-uglify'),
+    plugins;
+
+plugins = [
+    npm({
+        jsnext: true,
+        main: true
+    }),
+    commonjs({
+        exclude: ['resources/**']
+    }),
+    buble(),
+];
+
+if (gobble.env() === 'production') {
+    plugins.push(uglify());
+}
 
 module.exports = gobble([
     gobble('resources/static/fonts').moveTo('fonts'),
@@ -17,21 +35,7 @@ module.exports = gobble([
     gobble('resources/js').transform('rollup', {
         entry: 'chantron.js',
         dest: 'js/chantron.js',
-        format: 'umd',
-        moduleName: 'chantron', // becomes `window.myApp`
-        moduleId: 'chantron',
-        globals: {},
-        plugins: [
-            babel({
-                exclude: 'node_modules/**'
-            }),
-            npm({
-                jsnext: true,
-                main: true
-            }),
-            commonjs({
-                include: 'node_modules/**',
-            })
-        ]
+        format: 'iife',
+        plugins: plugins
     })
 ]);
